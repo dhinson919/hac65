@@ -284,10 +284,11 @@ command line.
 unique. The value must be either in normal JSON number form or in "HAC/65 digits" string form. For example, HAC/65
 supports $-prefixed addresses commonly used by 6502 assemblers and found in their listings.
 
-Now when we run it again this is the result:
+Now when we run it we can leave out the -o argument but we must add "-AExample" to indicate the custom overlay file:
 ```commandline
-HAC/65 v0.5 6502 Inferencing Disassembler [run:Tue Nov  6 03:53:18 2018]
-hac65 -AExample -Rs rom/1050-revK.rom[md5:5acf59fff75d36a079771b34d7c7d349]
+$ hac65 -AExample rom/1050-revK.rom
+HAC/65 v0.5 6502 Inferencing Disassembler [run:Tue Nov  5 15:12:53 2018]
+hac65 -AExample rom/1050-revK.rom[md5:5acf59fff75d36a079771b34d7c7d349]
 
 Architecture Overlays:
     Example
@@ -296,26 +297,26 @@ Architecture Overlays:
 Segments Report
 ---------------
 Assembly size (bytes) : 4096
-Segments (count)      : 154
-  Known Code          : 2
-  Inferred Code       : 140
+Segments (count)      : 153
+  Known Code          : 11
+  Inferred Code       : 136
   Dark Code           : 0
-  Known Data          : 1
-  Inferred Data       : 11
+  Known Data          : 2
+  Inferred Data       : 4
 
                                  *= $F000
 
-#144 F000-F012 data_inferred a3decbada7dfa4fec71e9d5e84178e72
+#150 F000-F012 data_inferred a3decbada7dfa4fec71e9d5e84178e72
 FB F7 EF DF 57 52 50 57 53 21 22 23 24 33 32 34
 31 FF 00
 
 #1 F013-F09D code_known c29cd090ca505a926a8fe6aa65934894
-F013  D8        RESET            CLD
-F014  A2 FF                      LDX #$FF
-F016  9A                         TXS
-F017  A9 3C                      LDA #$3C
+F013  D8        RESET            CLD 
+F014  A2 FF                      LDX #$FF     
+F016  9A                         TXS 
+F017  A9 3C                      LDA #$3C     
 F019  8D 81 02                   STA $0281
-F01C  A9 38                      LDA #$38
+F01C  A9 38                      LDA #$38     
 F01E  8D 80 02                   STA $0280
 
 [edited for brevity]
@@ -352,8 +353,9 @@ $ vi Example.aro
 ``` 
 Here is the result:
 ```commandline
-HAC/65 v0.5 6502 Inferencing Disassembler [run:Tue Nov  6 04:06:09 2018]
-hac65 -AExample -Rs rom/1050-revK.rom[md5:5acf59fff75d36a079771b34d7c7d349]
+$ hac65 -AExample rom/1050-revK.rom
+HAC/65 v0.5 6502 Inferencing Disassembler [run:Tue Nov  5 15:18:57 2018]
+hac65 -AExample rom/1050-revK.rom[md5:5acf59fff75d36a079771b34d7c7d349]
 
 Architecture Overlays:
     Example
@@ -456,8 +458,9 @@ base with this new information like so:
 ```
 Running with this addition results in a significant development: 
 ```commandline
-HAC/65 v0.5 6502 Inferencing Disassembler [run:Tue Nov  6 04:50:12 2018]
-hac65 -AExample -Rs rom/1050-revK.rom[md5:5acf59fff75d36a079771b34d7c7d349]
+$ hac65 -AExample rom/1050-revK.rom
+HAC/65 v0.5 6502 Inferencing Disassembler [run:Tue Nov  5 15:21:19 2018]
+hac65 -AExample rom/1050-revK.rom[md5:5acf59fff75d36a079771b34d7c7d349]
 
 Architecture Overlays:
     Example
@@ -472,7 +475,6 @@ Segments (count)      : 153
   Dark Code           : 0
   Known Data          : 2
   Inferred Data       : 4
-
 ```
 As we can see from the segment categories, adding the vector table results in 8 additional known code segments. This
 should come as no surprise since the vector table has 8 elements. But the other recategorizations are not so obvious.

@@ -1,0 +1,15 @@
+#
+# HAC/65 Architecture Overlay -- Atari 1050 RevK
+#
+
+@include "Atari1050Base"
+
+{
+    "structures":
+    {
+        "split_vector_tables":
+        {
+            "$FFE0": 8  # SIO commands
+        }
+    }
+}

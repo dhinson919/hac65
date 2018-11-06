@@ -1,0 +1,25 @@
+# Discovered knowledge about 1050 revK.
+@include "Builtin_MOS6502"
+{
+    "origin": "$F000",
+    "code_labels":
+    {
+        "RESET": "$F013",
+        "SOME_SUBROUTINE": "$F0F7"
+    },
+    "data_labels":
+    {
+        "FCNTRL": "$0400"
+    },
+    "equates":
+    {
+        "READ": "$80"
+    },
+    "structures":
+    {
+        "split_vector_tables":
+        {
+            "$FFE0": 8  # SIO commands
+        }
+    }
+}

@@ -1,0 +1,27 @@
+#
+# HAC/65 Architecture Overlay -- Atari 1050 Base
+#
+
+@include "Builtin_MOS6502"
+
+{
+    "origin": "$F000",
+
+    "data_labels":
+    {
+        # RIOT I/O
+        "DRA":      "$280",
+        "DDRA":     "$281",
+        "DRB":      "$282",
+        "DDRB":     "$283",
+        "TIM64":    "$296",
+        "TIM1024":  "$297",
+        "T1024I":   "$29F",
+
+        # Floppy Controller
+        "FCNTRL":   "$400",
+        "TRKREG":   "$401",
+        "SEKREG":   "$402",
+        "DATREG":   "$403"
+    }
+}

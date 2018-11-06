@@ -297,12 +297,12 @@ Architecture Overlays:
 Segments Report
 ---------------
 Assembly size (bytes) : 4096
-Segments (count)      : 153
-  Known Code          : 11
-  Inferred Code       : 136
+Segments (count)      : 154
+  Known Code          : 2
+  Inferred Code       : 140
   Dark Code           : 0
-  Known Data          : 2
-  Inferred Data       : 4
+  Known Data          : 1
+  Inferred Data       : 11
 
                                  *= $F000
 

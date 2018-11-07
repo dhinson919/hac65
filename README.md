@@ -81,6 +81,9 @@ Currently, to use it you will need:
 You can get started right away by
 [downloading just the pre-built executable](https://github.com/dhinson919/hac65/raw/master/build/amd64/release/hac65).
 
+Samples of reports using the ROM and overlay files provided with this project can be found in the 
+[samples directory](https://github.com/dhinson919/hac65/tree/master/samples).
+
 To build it you will need:
 - A recent 64-bit Linux distro. It was developed and tested on Ubuntu 18.04.1 LTS "bionic".
 - git (or compatible), cmake and g++ 7.1 (minimum).

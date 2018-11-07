@@ -1,0 +1,327 @@
+HAC/65 v0.5 6502 Inferencing Disassembler [run:Wed Nov  7 02:22:35 2018]
+hac65 -AAtari800OSA -Rf -i rom/800apal.rom[md5:eb1f32f5d9f382db1bbfb8d7f9cb343a]
+
+Architecture Overlays:
+    Atari800OSA
+    Atari800Base
+    Builtin_MOS6502
+
+Fingerprints Report
+-------------------
+Assembly size (bytes) : 10240
+Segments (count)      : 314
+
+00c17f9f74dfd00839f5934e94ec4e23 #175  code_inferred F00B                 
+01d28368faf515f36e17ee9546c7dd0b #290  data_known    FFFA                 
+02436a951ed5e922e3ccb5902235142e #163  code_inferred EEC1                 
+043f5a651974e0e9bdb2c423b4bb601a #307  code_dark     EBF0                 
+04b550b9d1416edc305531034ded7e8b #136  code_inferred EB02                 
+04e2930163bc4c83523e7542884f0f3c #79   code_inferred E4D6                 
+052a17f3eaf406e5b1dc827dc970bfa5 #31   code_inferred DC00                 
+079b6b3e32de29f75a8185a14c0cc3cc #121  code_known    E912 SETVBL          
+07ca5035f11189238d287aea636d72db #181  code_inferred F058                 
+0968e0d05ee0b92473c9593e07cd38e5 #20   code_inferred DB13                 
+0c4e6d77c191bbbd8e800db80a895dca #235  code_known    F810                 
+0c70f7441d95c85fcc7fe609022ba1e1 #126  code_inferred E96B                 
+0d4a42ad2cbd4c41dd69717e4b159ad7 #166  code_inferred EF14                 
+0e4462f1ed3bbac164c5796f88fd5ba8 #40   code_inferred DCC1                 
+0fe5c786562ca05c6cfaed1157de6bae #50   code_known    DDB6 FMOVE           
+123e3119060c2ff160b8f4cd538d711a #112  code_known    E7B4 PNMI            
+12969a0f8b78047b5824c17a01a9ca23 #169  code_known    EF4C                 
+145002b06b08a49903c3d2fa6b6a506a #24   code_inferred DB43                 
+17f1e67895a4e8e08cdc9b94e5c738d8 #159  code_known    EE78 PRNORG          
+18b2d2f8bb024205a93aff012afa7513 #39   code_inferred DCB9                 
+18b4f4402f58680540761b4d136a71f4 #85   code_inferred E574                 
+18de8ee8d5b17ff835bcfd8bb1d073a5 #213  code_inferred F5A2                 
+199427b36ea4a78b6042c0ab96849d74 #102  code_inferred E70B                 
+1a6344c75b9ec69a6dfb3ce1c7a43e8c #288  data_known    E4A2                 
+1a91b4b522662483ce25adba9dde4368 #12   code_inferred DA51                 
+1b4b7f55ce7532fefca75394639b09d9 #292  data_known    E400 EDITRV          
+1c068bc457282c1250fdf47672e2a981 #151  code_inferred ED1B                 
+1ef10142280c3dc4885632e8af2721c9 #183  code_inferred F095                 
+20e4bbca9f6663d842c37e378316afee #289  data_known    EC88                 
+257213759d0b0b24a1e889624789df66 #275  code_inferred FCA8                 
+2619ff329687e3bc4c05d3f6548a6579 #115  code_known    E7D1 SYSVBL          
+26ec9f9556ec04871a642582ada47835 #199  code_known    F2ED DOBOOT          
+26ff450e5db1ffc254e5b4321babee73 #258  code_inferred FB04                 
+2833d43b3bc3569e96f6d988e0367045 #116  code_inferred E808                 
+29bcfa75686de49af4dd1cc39bc79d01 #117  code_inferred E8E8                 
+2a8fc1907987614f6f1b485d0f2d80d2 #145  code_inferred EC79                 
+2b121647652d167ccf041c1b24a94419 #1    code_known    D800 AFP             
+2d5686a4f40d5f860acafa57fb8d807f #294  data_known    E420 KEYBDV          
+2d650a90adc2a552e11b9658e3bf8755 #236  code_known    F82D                 
+2d650a90adc2a552e11b9658e3bf8755 #237  code_known    F832                 
+2e4c3bf9b063c297ec259aeb6eebe1f6 #120  code_inferred E90F                 
+2f13edc3578886439b4e9a48cd53083b #182  code_inferred F08C                 
+2f13edc3578886439b4e9a48cd53083b #190  code_inferred F230                 
+2f27cb049fde3fb416ffffe6f380f941 #180  code_inferred F038                 
+2ffacc143bc024468cac6ff494186892 #281  code_known    FCFC DRAW            
+30682196059b57681d15acd8ce3bf377 #129  code_inferred EA1A                 
+30a514dfac6a79e525f2c783fa0f1bce #146  code_inferred EC8E                 
+30b826ddb7891348b914075620cf5819 #215  code_inferred F5CA                 
+31eab2ce8649555415b3a9708f319e07 #141  code_inferred EBB7                 
+3333f89e58d52b05bac48e9baf63ab2e #194  code_inferred F256                 
+33cb2f79630ed06bbb4a6b2e3cce2e30 #23   code_known    DB28 FDIV            
+356b3efb8d8a04f9931ae382ec75e1f3 #46   code_known    DD40 PLYEVL          
+39a009cfc1f986c60e8dcedb47def9a9 #27   code_inferred DBAF                 
+3a333263a38498f4ea88e7673bfdecc4 #18   code_known    DADB FMUL            
+3a564a1033bb9072d136267a243255b8 #313  data_inferred FEF6                 
+3b29a442433de74a2746182ff9b4c116 #138  code_known    EB11 ISRSIR          
+3bd7c129b86714bc0e43eea9c660dcc3 #35   code_inferred DC62                 
+3d433b03d03c7b95b43426df0d3ecee5 #54   code_known    DECD LOG             
+3d59dd2ee3202e9d6f90d4526e02bb8b #80   code_inferred E509                 
+3d5f41d012c69c83870532956796cafd #98   code_inferred E69E                 
+3df5d94c44e6b05b02622afce92c3fec #266  code_inferred FBDD                 
+3f00712704d80333feb424e335af8db8 #133  code_inferred EAC0                 
+41a1fefed1898a0a1cfab34bcce81010 #265  code_known    FBAC SCROLL          
+426741a343b7b31d8fb0910e825aa8ef #140  code_known    EB84 CASENT          
+43d3ec0639169e9d4f65fb18f874c166 #278  code_inferred FCD8                 
+43faf0b204159005a725be7205f12382 #93   code_inferred E663                 
+44d152151d5f94f0f5c7be5a23ba3881 #204  code_inferred F39D                 
+44f2c50b838f92970d2c11e2fa98bc7d #300  data_inferred E41F                 
+4534bc93fe18af29b1efa8f23b86b90c #217  code_inferred F5E0                 
+46c8632bb29f05798bec8c619cfa2aa4 #277  code_inferred FCB9                 
+46fe4cc41aa34a96fbacb5821ebf08fd #21   code_inferred DB21                 
+475384a85f7cce3548d956ae3ffaa0bb #49   code_known    DDA7 FSTOR           
+479487e2a90ce8cb4b27922bfd1b2956 #162  code_known    EEA7                 
+48684ec9de1dd10169daabd82a01c28b #137  code_inferred EB0C                 
+4982588526346109f78bc185b0a7369f #177  code_inferred F01E                 
+4a888d159bf872a021dd6870438e06d7 #246  code_inferred F988                 
+4aba1c5e9f2e6098d282f5a0eb283b90 #284  code_inferred FE27                 
+4bcec27bbe5018c7deb46db7e3027500 #267  code_inferred FBF8                 
+4c88ae42a840dedbf2184cfaa2ff387b #88   code_inferred E5C9                 
+4e4f402595744db877e35f9f2c5d925d #193  code_known    F23F SPECL           
+4ea7f30e8c5a35775963e0d2b990d4a2 #285  code_inferred FE42                 
+4ea7f30e8c5a35775963e0d2b990d4a2 #56   code_known    E40C                 
+4ea7f30e8c5a35775963e0d2b990d4a2 #57   code_known    E41C                 
+4ea7f30e8c5a35775963e0d2b990d4a2 #58   code_known    E42C                 
+4ea7f30e8c5a35775963e0d2b990d4a2 #59   code_known    E43C                 
+4ea7f30e8c5a35775963e0d2b990d4a2 #60   code_known    E44C                 
+4ea7f30e8c5a35775963e0d2b990d4a2 #61   code_known    E450 DISKIV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #62   code_known    E453 DSKINV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #63   code_known    E456 CIOV            
+4ea7f30e8c5a35775963e0d2b990d4a2 #64   code_known    E459 SIOV            
+4ea7f30e8c5a35775963e0d2b990d4a2 #65   code_known    E45C SETVBV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #66   code_known    E45F SYSVBV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #67   code_known    E462 XITVBV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #68   code_known    E465 SIOINV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #69   code_known    E468 SENDEV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #70   code_known    E46B INTINV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #71   code_known    E46E CIOINV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #72   code_known    E471 BLKVDV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #73   code_known    E474 WARMSV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #74   code_known    E477 COLDSV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #75   code_known    E47A RBLOKV          
+4ea7f30e8c5a35775963e0d2b990d4a2 #76   code_known    E47D CSOPIV          
+4f45dc88f3ddac672e027ba8f0740381 #268  code_inferred FC00                 
+510333854377e3083aef4cf894568d8f #308  data_inferred EDD2                 
+5199b8e7ecd5d1e2bb1842b31b085a9c #298  data_inferred DF66                 
+5317fb8b5a4e88ac50cfcae2e266b25f #84   code_known    E569 CIREAD          
+53b7d4c473dae16e04aac971d9bf82ed #105  code_inferred E74A                 
+547046e6db83f876f200a98a7e5dcb1a #203  code_inferred F381                 
+5599925445508d0b6c75a493a85158b7 #124  code_known    E944 SIOORG          
+57297ca3a5cd2a298cf3d7321a22303c #201  code_inferred F36C                 
+573029be61a3e223ec81683b46097f7b #245  code_inferred F947                 
+5752a3597e4b625c658422bdd464fdca #244  code_inferred F913                 
+5791adeaded4906013f1205552acb49d #97   code_inferred E693                 
+57fafb2a4a8681a9d9703296c2af6654 #206  code_inferred F3B2                 
+583d496d41bbbd355053cbcbf362687e #207  code_inferred F3C0                 
+58f7968510e53bf2b1820e4b514c1eff #55   code_inferred DEDB                 
+5d78c5629fb279c527e0617f75d4393d #110  code_inferred E7A9                 
+5d96913a2f8c29851cf1f89f47ee0b34 #176  code_known    F010                 
+5de30f13d5bfbd1712567d4e7cffaaf6 #42   code_inferred DCE0                 
+5e7f1805e2b896ede0797fc8e48efd9e #231  code_known    F78C                 
+62a007cae69488c82a89025d810a8e24 #28   code_inferred DBBB                 
+62a9da0417b59e3e9f6adc5578944196 #128  code_inferred EA0D                 
+6340333e6680a0d327ffda2a6a0e0881 #249  code_inferred F9F8                 
+654d8934d1d483567067ce92c5f0adc7 #104  code_inferred E737                 
+656ff68c26f5092cf476848997d5d396 #252  code_inferred FA7A                 
+65cfd14bb462b8f628dbb1a6d2e3b0df #11   code_known    DA44 ZFR0            
+67a5335f40445654fbe13a385b625e92 #253  code_inferred FA88                 
+682de28dd776c7386c23e5fcde87c17f #227  code_inferred F71E                 
+690b440729cb3409ebf8f501644f4ba8 #33   code_inferred DC31                 
+6976153854bcbeae88ea40de2d513a11 #228  code_inferred F768                 
+69fd25451ac2e74d7708c44cb6a95fd3 #232  code_known    F7AA                 
+6a61ce92945e0afcf93dbb78c9a18867 #312  data_inferred FE45                 
+6bdb41c079ad14a63cc0d7afa3df4c7d #89   code_inferred E5D4                 
+6bdcdd12b881006462226002d1f3e8c1 #144  code_inferred EC63                 
+6c8f2d0a74690067e38b12e158acfab4 #152  code_inferred ED4C                 
+6cb82a1f24173650f393f144e9b959ad #233  code_known    F7B9                 
+6cfad126dfe0860d4c9a81a6d655e6c7 #311  code_dark     FA2C                 
+6ddb27dbab13dcbbe276b473b2f7d823 #297  data_inferred DE4D                 
+6de4cb9c451e9661d67e3c79212ee833 #119  code_inferred E8F5                 
+718f8fdba3541e9fcaf6b97547e88b5d #251  code_known    FA30                 
+74b44634b2148ec100f0491c5153d801 #111  code_known    E7B2                 
+75cb5bc52c8051634e5eaca87aff299a #214  code_known    F5B7                 
+75ea03a293c0239f57389ee0c481c20c #230  code_known    F77F                 
+767564adb4ab54fdc425f41acd2cb324 #179  code_known    F02B                 
+78f875238326c6b5e7b9b9dcc40e618a #255  code_inferred FAE4                 
+7914593acf68d6efa51c2ce92b5ee572 #15   code_inferred DAA7                 
+79310dbcefe3ff0c88621d8038620922 #209  code_known    F3E4 KBDORG          
+79332b8cc7d3ee8230f4df5e026e91a3 #225  code_inferred F6BE                 
+79644473beae80375413dd57554c335c #125  code_known    E959                 
+7a2a395ee88a91e16da955ceb8c9dade #212  code_known    F593                 
+7ce173cd0bb960ddad13789659236961 #82   code_inferred E533                 
+7d79ddc1500c5ad1c774526ec6962a87 #242  code_known    F8D4                 
+7d96fed2f304e2435535c0fc93b2b1c9 #210  code_known    F3F6                 
+7d97a7c1dd34c9e0a42a44cecc4b7b03 #86   code_inferred E587                 
+7f2de5ca17da596c28aafc0095230551 #185  code_known    F11B RESET           
+7fc0ff0d3f0716e7408fa52923a72504 #142  code_known    EBF6                 
+7fce55ead93fec0272fee816ee3710ba #263  code_inferred FB7B                 
+805b0028a10fddcfdc0de3400990314b #286  code_known    FFBE PIRQQ           
+8310fa0f10a32f361d91b910ad28b2b2 #150  code_inferred ED14                 
+833344d5e1432da82ef02e1301477ce8 #122  code_inferred E93D                 
+833344d5e1432da82ef02e1301477ce8 #2    code_inferred D841                 
+833344d5e1432da82ef02e1301477ce8 #272  code_inferred FC8C                 
+834ac29291eb67c75da22c99f3cd54a4 #6    code_inferred D91A                 
+83db41b60b46092c8d297045f1a6aa00 #43   code_inferred DD01                 
+83fe586fea691a57901a240cfe1104fd #106  code_inferred E75A                 
+85a2d603a39a2a3332c6e7fbf8ef8c06 #113  code_inferred E7BC                 
+885a78a6a28a699d4ac732076b1bcfe1 #90   code_inferred E605                 
+88f3e1b8fd2bc15f7ff248feb155d170 #314  data_inferred FFF2                 
+89defc50a70ea5617c2d4bbfe0ca5cde #299  data_inferred E40F                 
+8a874acfc804988dc26f93c0528d4cde #91   code_inferred E61B                 
+8d9c967cd341fb47aadcb3462d398a36 #108  code_inferred E793                 
+8d9c967cd341fb47aadcb3462d398a36 #109  code_inferred E79E                 
+8e611add7c1fcda77b3f5de1009bdf48 #153  code_inferred EDA4                 
+8f03f5ccc999834f3e9c0d6937283ef6 #25   code_inferred DB94                 
+907f579661be455089f6814b3ad9d4da #96   code_inferred E689                 
+91fce1f82316f12a268bee89f46a6c52 #196  code_known    F294 OSRAM           
+93074881f64b989908743e01c2ab4696 #13   code_inferred DA5A                 
+93b885adfe0da089cdf634904fd59f71 #301  data_inferred E42F                 
+93b885adfe0da089cdf634904fd59f71 #302  data_inferred E43F                 
+93b885adfe0da089cdf634904fd59f71 #303  data_inferred E44F                 
+93d56bcbb0275cbcf7c19d126a6ef66b #256  code_inferred FAEB                 
+962a574345a41cd93a011d243a805912 #149  code_inferred ED10                 
+9641180d7aa827c0e32f0f912e2097b2 #224  code_known    F6A4 EOUTCH          
+96952eeaf42bda8f13c3898dbcca7612 #283  code_inferred FD99                 
+9731c1b920248bbb5dabac7e3e4c91db #219  code_inferred F621                 
+97399fb16a351a38df2b6f15a10fa960 #100  code_known    E6F3 PIRQ            
+97399fb16a351a38df2b6f15a10fa960 #118  code_inferred E8F2                 
+97399fb16a351a38df2b6f15a10fa960 #188  code_inferred F220                 
+97399fb16a351a38df2b6f15a10fa960 #191  code_known    F239 CAINI           
+97399fb16a351a38df2b6f15a10fa960 #192  code_known    F23C CBINI           
+97399fb16a351a38df2b6f15a10fa960 #202  code_known    F37E DOPEN           
+97399fb16a351a38df2b6f15a10fa960 #208  code_inferred F3E1                 
+97399fb16a351a38df2b6f15a10fa960 #223  code_inferred F6A1                 
+97de516396cf1d02eed9cd8be734b285 #101  code_known    E6F6                 
+98689d575d4976685881ff5cd5085454 #287  data_known    E480 VCTABL          
+98b9f9de1a02ba0dccb00255a3b565de #216  code_inferred F5D7                 
+9bbe780c966460c38fa646345226ca90 #296  data_known    E440 CASETV          
+9c397cf6f816c2b40f5ad19aa4ff510f #198  code_inferred F2DD                 
+9e72a7e9575f3a78617365b01a838b07 #36   code_inferred DC70                 
+9f3c272678a94d4f66dfc5fc9279fd1f #197  code_known    F2CF BOOT            
+a04dcf9a0f17af715d6afdda3427c5a7 #220  code_known    F63E EGETCH          
+a0b702a1cd47b77f2b5a0aaaf2b86ed9 #274  code_inferred FC9D                 
+a137c87256c4767d0ba6cb70b9cee033 #248  code_inferred F9D4                 
+a281117dad91e24da202d71bc9e0cae5 #264  code_inferred FB9B                 
+a33ee9977bb89250b818736798460a72 #158  code_inferred EE6D                 
+a3f51180b2e2fa67de8ce2e6616f527b #178  code_known    F028                 
+a43438e174c79a98b34b08af4708f3f6 #4    code_known    D8E6 FASC            
+a4a19cfc2e9adba04a114ebadcd64fee #173  code_known    EFD6                 
+a57bcadeb522546bcd6bcebd1303812b #260  code_inferred FB20                 
+a63c90cc3684ad8b0a2176a6a8fe9005 #304  data_inferred E498                 
+a72e28b11e34de64c600c54b4168ae1e #132  code_known    EA90 ISRODN          
+a73e93de03f1d3f0c2c25f15ffca4b64 #243  code_known    F90A                 
+a7ca9e9b68bc9e268cfecf42b88704d4 #254  code_inferred FAD1                 
+a8e454642da1e7a00f7840e094607456 #161  code_known    EE9F                 
+aa45f759d1bdfb15c20b9dffb048cdf7 #34   code_inferred DC3A                 
+ab9a51ff805d508ce966b5c2e7689ee5 #295  data_known    E430 PRINTV          
+ad6219c5777b1959584e0df09c4bd9bd #160  code_known    EE81                 
+ae2acc7538b1461c644855720171898e #83   code_inferred E54E                 
+af68db0b6898b03f36c6a838b4e344f3 #226  code_known    F6DD KGETC2          
+afb4d7292b5fcab5fb0c7f6868eb1479 #26   code_inferred DBA1                 
+b17cd54fd88adc80d5b8786b1210c2ad #19   code_inferred DB01                 
+b2cf1af82c5d9cff5879496ffb548e8b #148  code_inferred ED08                 
+b380cef1d98d0225e32ae02a28697831 #205  code_inferred F3A4                 
+b3d9afb01d2397e9fd794d3a1dcac3f7 #14   code_known    DA60 FSUB            
+b3f3828d3069d752a99e8648faa7019c #10   code_inferred DA42                 
+b3f3828d3069d752a99e8648faa7019c #22   code_inferred DB26                 
+b3f3828d3069d752a99e8648faa7019c #52   code_inferred DE4B                 
+b59133ba72a832c5d23b9f5a075827e3 #134  code_known    EAD1 ISRTD           
+b5be05502a05cc9178183a4c64a77be4 #30   code_inferred DBE7                 
+b65a6de172e5788cff493295eddf15fc #247  code_inferred F99C                 
+b665ffa65665c6d3dd22001aaf0740fd #143  code_inferred EC1F                 
+b6bc83593dd3ffd53b7aec19127cae2b #250  code_inferred FA14                 
+b87f75aa3acfd84d98e1412787448ce3 #238  code_known    F837                 
+b93a4c9317258b2d11b9a9fd00f5630b #114  code_inferred E7C7                 
+ba47fe954c92f94bfcb5e4bdc8db8c0e #189  code_known    F223                 
+ba4c270b21b8d9de0d01755a0454242e #37   code_inferred DC9D                 
+babfe84a203c3dabfc39984120423d95 #99   code_known    E6D5 INTORG          
+bc4ad443896ef1ad4ba94980a4d9fc7f #261  code_inferred FB32                 
+bdffe391de863046817f655bdd61e294 #164  code_known    EEDC                 
+bf087080597dd11ae94fbc546c02fdeb #270  code_inferred FC5C                 
+bf9cfe4c10bb380497cffbc8dd17a5e0 #87   code_inferred E5A7                 
+c0a8f08d5ba869e3876109a2c1cfc5a3 #200  code_inferred F30E                 
+c2ed9e1d601658f60b533cf019a112f7 #262  code_inferred FB4E                 
+c3a18566b43bca986adf18da9640c12c #29   code_inferred DBD2                 
+c43c41bb4a2616f46bd50c68f343cde0 #8    code_known    D9AA IFP             
+c4c91a640a0407c6833ee201402e83bf #81   code_inferred E514                 
+c58538344a3552fd939c2d59a5242f40 #186  code_known    F1DB SCRNOK          
+c7ae3e44c9b61dae544dd359ff06eabf #165  code_inferred EEE6                 
+c86096a4db0427680b942694edef8a4c #32   code_inferred DC28                 
+c9ed8f6753f3a52088a6292bb7df7742 #171  code_inferred EF8B                 
+cb41c87383f8f8a0640ca0dd190daefc #305  code_dark     E4C1                 
+cc370c3f298848e479ad45e6168da88b #257  code_inferred FAFA                 
+ce54ab294646ffdbb787ee739cab7ee7 #259  code_inferred FB12                 
+cea06e103d2aaed676123085c8f01da5 #17   code_inferred DAC5                 
+ceea6e8203fea9ac54b5eb075e6acb60 #309  data_inferred EE7D                 
+cefe27099744dd8fbcd10b25da08960e #222  code_inferred F691                 
+cf1d9218251c0678698f1bb571a78a98 #239  code_inferred F85E                 
+cfc80e0e08185f68e11aceb6eb4280d9 #293  data_known    E410 SCRENV          
+d04fe00543725e6f061f4cbda72f6157 #187  code_inferred F212                 
+d196bd256453ff19ce2c836f24526073 #269  code_inferred FC29                 
+d2479c2065b95e18378f9e6dfb8e5c09 #271  code_inferred FC68                 
+d24b9d3a39d9971d85540a9212f5d614 #195  code_known    F281 HARDI           
+d5048904acf3149976adffcd659ab5d3 #147  code_known    ECA7 COMPUT          
+d5a5ef56331906f2f5afe32fac25ab54 #167  code_inferred EF1A                 
+d6f25168fa55121752d0a888f5971bec #306  data_inferred E6C9                 
+d8c58daeceec0cfe8245baf3fc143ef7 #279  code_inferred FCE4                 
+daeb7135621cdd67eb47c58d97f3f39c #280  code_inferred FCF3                 
+dc5c52c71f174f57444d8fa69c42fe15 #16   code_inferred DAB3                 
+dc7c464bd769dd140b298dad1d04f984 #310  data_known    F0E3 TBLENT          
+de49fbd28d7f8db1fbdf542d402c486e #291  data_known    FEC6                 
+dfbc255e60e32faf324a71939142aeaa #51   code_known    DDC0 EXP             
+e02b243ac5f11ded9be7042c9d64f20b #53   code_inferred DE95                 
+e1116d3e0693952bf3aba44617b1ab9b #103  code_inferred E71F                 
+e3df58d6178a9bf4e6a7fc2e4fa3a587 #127  code_inferred E9C6                 
+e5937e7564c4d010e7204c79b8b45c42 #135  code_inferred EAE2                 
+e594233bc25990ee39b4d680a6fdaf97 #3    code_inferred D842                 
+e7f56892dea78e0d3517d513a9b95fa9 #174  code_known    EFE9                 
+e891ba565f482691f8e1f6939f9b367a #130  code_known    EA6B SEND            
+e8e79c0e8ceed0b1ce8ecf1acb2e934a #282  code_inferred FD0B                 
+e91a320325d9e52b7be98256983ce757 #94   code_inferred E670                 
+e9320bf0a0a01bd1b1e72ec98e2049ca #156  code_known    EDF0                 
+e9e6638995d3fc18127f9de4af53edb4 #241  code_known    F8A4                 
+eb254200cbf2d7a618750486061c02a9 #123  code_known    E93E                 
+eb4346f3db184fd5d81a8c752fd706bc #218  code_inferred F610                 
+ebf5098088ee942df1c1ae2e652feab0 #273  code_inferred FC8D                 
+ec45d99b3362ecf5754ee33f18f47eea #155  code_known    EDEA DSKORG          
+ec5b6be922f407c22621992333ebbd80 #184  code_inferred F0D2                 
+ed2220aa037881e4b748d77d77ba49ee #211  code_inferred F577                 
+eda11248091cf65d4c3fd58021822f77 #221  code_inferred F66E                 
+ee58725269c0614131f28fc99fe668c1 #38   code_inferred DCA4                 
+eebf093f60186caf9f510632d92033c0 #44   code_inferred DD28                 
+eebf093f60186caf9f510632d92033c0 #45   code_inferred DD34                 
+eef211ddac6eb67f0de288baa9647434 #154  code_inferred EDBD                 
+ef010c2d497b3639e52b7654cb9e368f #7    code_inferred D920                 
+f003459a34fa4d84a5ecdc55495fdd50 #92   code_inferred E63D                 
+f1f29ceccf99edb3ac838a378714dd1a #234  code_known    F7E6                 
+f20fa8915b1b4a00a46328494fa58e07 #47   code_known    DD89 FLD0R           
+f20fa8915b1b4a00a46328494fa58e07 #48   code_known    DD98 FLD1R           
+f3fe0f577929c0524b411d328c7a0247 #172  code_inferred EF95                 
+f461572e7a0dd5b28514ea4b9ee144a8 #95   code_inferred E677                 
+f4844d6006fe05cf65b13b8e290c0cf8 #78   code_known    E4C4                 
+f5e3c680d1b4590daeaa3e69e4451669 #77   code_known    E4A6 CIOINT          
+f85761fac745a5831687d85686ae569e #41   code_inferred DCCF                 
+f8645175243c518cf508225619e244fd #168  code_inferred EF3D                 
+f9ea3df1b9868b592ac70b41e5eb6ad1 #107  code_inferred E779                 
+fc4960eac828992d525f2f27f754a635 #240  code_known    F86D                 
+fd4b3cdd4f1b3f17dab280664017b026 #276  code_inferred FCB3                 
+fd4b3cdd4f1b3f17dab280664017b026 #5    code_inferred D914                 
+fd70d1f0c31de9e5f1fb7ae4cb286b00 #139  code_inferred EB3E                 
+fdda1df57e63de9d5b11fabf901c8db6 #229  code_known    F779                 
+fe6ce1f83c9292b9be34bbb071c3d8e1 #131  code_inferred EA88                 
+fedd97cfc1353f32afc5c736dd23837d #170  code_known    EF5D                 
+fef0cecff3016ff9668e8698cdd4fc2a #9    code_known    D9D2 FPI             
+ff85a9c224977b3e3df77f4cb7c3d92b #157  code_inferred EE32                 

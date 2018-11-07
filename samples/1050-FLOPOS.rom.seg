@@ -1,0 +1,2206 @@
+HAC/65 v0.5 6502 Inferencing Disassembler [run:Wed Nov  7 02:22:32 2018]
+hac65 -AAtari1050RevKAnno -Rs -i rom/1050-FLOPOS.rom[md5:ad4b6ec7de5f3fe165df02d832e31be4]
+
+Architecture Overlays:
+    Atari1050RevKAnno
+    Atari1050RevK
+    Atari1050Base
+    Builtin_MOS6502
+
+Segments Report
+---------------
+Assembly size (bytes) : 4096
+Segments (count)      : 152
+  Known Code          : 146
+  Inferred Code       : 0
+  Dark Code           : 1
+  Known Data          : 4
+  Inferred Data       : 1
+
+                                 *= $F000
+
+#149 F000-F012 data_known a3decbada7dfa4fec71e9d5e84178e72
+FB F7 EF DF 57 52 50 57 53 21 22 23 24 33 32 34
+31 FF 00
+
+#1 F013-F09D code_known c29cd090ca505a926a8fe6aa65934894
+F013  D8        START            CLD 
+F014  A2 FF                      LDX #$FF     
+F016  9A                         TXS 
+F017  A9 3C                      LDA #$3C     
+F019  8D 81 02                   STA DDRA
+F01C  A9 38                      LDA #$38     
+F01E  8D 80 02                   STA DRA
+F021  AD 80 02                   LDA DRA
+F024  29 3C                      AND #$3C     
+F026  C9 38                      CMP #$38     
+F028  D0 73                      BNE FAIL
+F02A  A9 3D                      LDA #$3D     
+F02C  8D 83 02                   STA DDRB
+F02F  A9 3D                      LDA #$3D     
+F031  8D 82 02                   STA DRB
+F034  AD 82 02                   LDA DRB
+F037  29 3D                      AND #$3D     
+F039  C9 3D                      CMP #$3D     
+F03B  D0 60                      BNE FAIL
+F03D  A9 D0                      LDA #$D0     
+F03F  8D 00 04                   STA FCNTRL
+F042  A2 15                      LDX #$15     
+F044  CA        DEL1             DEX 
+F045  D0 FD                      BNE DEL1
+F047  AD 00 04                   LDA FCNTRL
+F04A  29 01                      AND #1       
+F04C  D0 4F                      BNE FAIL
+F04E  A9 55                      LDA #$55     
+F050  8D 01 04                   STA TRKREG
+F053  8D 02 04                   STA SEKREG
+F056  A2 1E                      LDX #$1E     
+F058  CA        DEL2             DEX 
+F059  D0 FD                      BNE DEL2
+F05B  4D 01 04                   EOR TRKREG
+F05E  D0 3D                      BNE FAIL
+F060  A9 55                      LDA #$55     
+F062  4D 02 04                   EOR SEKREG
+F065  D0 36                      BNE FAIL
+F067  A9 48                      LDA #$48     
+F069  8D 00 04                   STA FCNTRL
+F06C  A2 28                      LDX #$28     
+F06E  20 91 F1                   JSR DELAY1
+F071  AD 00 04                   LDA FCNTRL
+F074  29 01                      AND #1       
+F076  F0 25                      BEQ FAIL
+F078  A2 28                      LDX #$28     
+F07A  20 91 F1                   JSR DELAY1
+F07D  AD 00 04                   LDA FCNTRL
+F080  29 01                      AND #1       
+F082  D0 19                      BNE FAIL
+F084  A9 F0                      LDA #$F0     
+F086  85 01                      STA SEKBUF+1
+F088  A9 00                      LDA #0       ;SEKBUF?
+F08A  85 00                      STA SEKBUF
+F08C  18                         CLC 
+F08D  A8                         TAY 
+F08E  71 00     PCHECK           ADC (SEKBUF),Y
+F090  C8                         INY 
+F091  D0 FB                      BNE PCHECK
+F093  E6 01                      INC SEKBUF+1
+F095  D0 F7                      BNE PCHECK
+F097  09 00                      ORA #0       ;SEKBUF?
+F099  85 00                      STA SEKBUF
+F09B  F0 01                      BEQ TSTOK
+F09D  00        FAIL             BRK 
+
+#2 F09E-F0F6 code_known fa28dc949452e3fd382d50c1f33a89ce
+F09E  A2 00     TSTOK            LDX #0       ;SEKBUF?
+F0A0  8A        RAMTST           TXA 
+F0A1  95 00                      STA SEKBUF,X
+F0A3  E8                         INX 
+F0A4  D0 FA                      BNE RAMTST
+F0A6  8A        RAMTST1          TXA 
+F0A7  D5 00                      CMP SEKBUF,X
+F0A9  D0 F2                      BNE FAIL
+F0AB  CA                         DEX 
+F0AC  D0 F8                      BNE RAMTST1
+F0AE  8A                         TXA 
+F0AF  95 00     RAMCLR           STA SEKBUF,X
+F0B1  E8                         INX 
+F0B2  D0 FB                      BNE RAMCLR
+F0B4  A2 03                      LDX #3       
+F0B6  86 9F                      STX PHASE
+F0B8  AD 03 F0                   LDA PHASE4
+F0BB  2D 82 02                   AND DRB
+F0BE  8D 82 02                   STA DRB
+F0C1  20 80 F1                   JSR TMOTON
+F0C4  A9 00                      LDA #0       ;SEKBUF?
+F0C6  85 8D                      STA TRACK
+F0C8  20 B4 F1                   JSR SIREST
+F0CB  AD 00 04                   LDA FCNTRL
+F0CE  85 8F                      STA CSTAT
+F0D0  29 80                      AND #$80     ;RDRIVE?
+F0D2  D0 03                      BNE DRDY
+F0D4  20 55 F1                   JSR IDENT
+F0D7  20 F7 F0  DRDY             JSR DSKCHG
+F0DA  20 B2 F2                   JSR TKOMND
+F0DD  AD 80 02                   LDA DRA
+F0E0  29 08                      AND #8       
+F0E2  D0 F3                      BNE DRDY
+F0E4  A2 08                      LDX #8       
+F0E6  CA        DEL3             DEX 
+F0E7  D0 FD                      BNE DEL3
+F0E9  E6 8B                      INC MOTIML
+F0EB  D0 EA                      BNE DRDY
+F0ED  E6 8C                      INC MOTIMH
+F0EF  D0 E6                      BNE DRDY
+F0F1  20 19 F1                   JSR MOTOFF
+F0F4  4C D7 F0                   JMP DRDY
+
+#3 F0F7-F101 code_known 360b2aec6eb44294ea08367dfeedfd61
+F0F7  A9 80     DSKCHG           LDA #$80     ;RDRIVE?
+F0F9  2D 00 04                   AND FCNTRL
+F0FC  AA                         TAX 
+F0FD  45 9B                      EOR DSTAT
+F0FF  D0 01                      BNE NEWDSK
+F101  60                         RTS 
+
+#4 F102-F10C code_known ffda69dd850c8409627bc0c1b26820ba
+F102  86 9B     NEWDSK           STX DSTAT
+F104  8A                         TXA 
+F105  10 06                      BPL DIDENT
+F107  20 19 F1                   JSR MOTOFF
+F10A  4C 13 F1                   JMP UPDATE
+
+#5 F10D-F118 code_known d3ba45b75388656c6390eeadfbf248be
+F10D  20 80 F1  DIDENT           JSR TMOTON
+F110  20 55 F1                   JSR IDENT
+F113  AD 00 04  UPDATE           LDA FCNTRL
+F116  85 8F                      STA CSTAT
+F118  60                         RTS 
+
+#6 F119-F12F code_known c1d372f2ecaebcde60eebd98ec6d36e8
+F119  AD 80 02  MOTOFF           LDA DRA
+F11C  09 08                      ORA #8       
+F11E  8D 80 02                   STA DRA
+F121  A9 3C                      LDA #$3C     
+F123  0D 82 02                   ORA DRB
+F126  8D 82 02                   STA DRB
+F129  A5 90                      LDA STATUS
+F12B  29 EF                      AND #$EF     
+F12D  85 90                      STA STATUS
+F12F  60                         RTS 
+
+#7 F130-F154 code_known 355c8a07eee284e0cb6135c4bf946a49
+F130  AD 80 02  MOTON            LDA DRA
+F133  29 F7                      AND #$F7     
+F135  8D 80 02                   STA DRA
+F138  A6 9F                      LDX PHASE
+F13A  AD 82 02                   LDA DRB
+F13D  3D 00 F0                   AND PHASE1,X
+F140  8D 82 02                   STA DRB
+F143  A9 00                      LDA #0       ;SEKBUF?
+F145  85 8C                      STA MOTIMH
+F147  85 8B                      STA MOTIML
+F149  A5 90                      LDA STATUS
+F14B  09 10                      ORA #$10     
+F14D  85 90                      STA STATUS
+F14F  A2 05                      LDX #5       
+F151  20 9C F1                   JSR DELAY2
+F154  60                         RTS 
+
+#8 F155-F178 code_known 80f67b12b2c62576cd23b4745464dc95
+F155  20 B9 F1  IDENT            JSR RESTORE
+F158  AD 80 02                   LDA DRA
+F15B  29 DF                      AND #$DF     
+F15D  8D 80 02                   STA DRA
+F160  20 93 F5                   JSR RDADR
+F163  F0 14                      BEQ IDENT1
+F165  20 93 F5                   JSR RDADR
+F168  F0 0F                      BEQ IDENT1
+F16A  AD 80 02                   LDA DRA
+F16D  49 20                      EOR #$20     
+F16F  8D 80 02                   STA DRA
+F172  A5 90                      LDA STATUS
+F174  29 7F                      AND #$7F     
+F176  85 90                      STA STATUS
+F178  60                         RTS 
+
+#9 F179-F17F code_known 811d84464a3dd3018456113b1a6f240d
+F179  A5 90     IDENT1           LDA STATUS
+F17B  09 80                      ORA #$80     ;RDRIVE?
+F17D  85 90                      STA STATUS
+F17F  60                         RTS 
+
+#10 F180-F190 code_known 3f23b38c4feecd0eb49c8fac9b8c9532
+F180  AD 80 02  TMOTON           LDA DRA
+F183  29 08                      AND #8       
+F185  F0 03                      BEQ ZF18A
+F187  20 30 F1                   JSR MOTON
+F18A  A9 00     ZF18A            LDA #0       ;SEKBUF?
+F18C  85 8B                      STA MOTIML
+F18E  85 8C                      STA MOTIMH
+F190  60                         RTS 
+
+#11 F191-F19B code_known 8533f968bb061a72c4586837c573ce21
+F191  A0 12     DELAY1           LDY #$12     
+F193  88        D11              DEY 
+F194  D0 FD                      BNE D11
+F196  CA                         DEX 
+F197  EA                         NOP 
+F198  EA                         NOP 
+F199  D0 F6                      BNE DELAY1
+F19B  60                         RTS 
+
+#12 F19C-F1AF code_known 8a7acab77d74e753764ba90b53b13f4e
+F19C  86 B1     DELAY2           STX SBUF
+F19E  A0 04     D21              LDY #4       
+F1A0  84 B2                      STY SBUF+1
+F1A2  A2 FA     D22              LDX #$FA     
+F1A4  20 91 F1                   JSR DELAY1
+F1A7  C6 B2                      DEC SBUF+1
+F1A9  D0 F7                      BNE D22
+F1AB  C6 B1                      DEC SBUF
+F1AD  D0 EF                      BNE D21
+F1AF  60                         RTS 
+
+#13 F1B0-F1B3 code_known 3a4cf4b520f08edce6b67cc49dd1baa1
+F1B0  88        DELAY3           DEY 
+F1B1  D0 FD                      BNE DELAY3
+F1B3  60                         RTS 
+
+#14 F1B4-F1D5 code_known 2922ff64574a688757a3633591d0bb25
+F1B4  A9 0A     SIREST           LDA #$0A     
+F1B6  20 3D F2                   JSR DOSTEPS
+F1B9  20 A0 F2  RESTORE          JSR FORCE
+F1BC  20 A0 F2                   JSR FORCE
+F1BF  A9 FF                      LDA #$FF     
+F1C1  85 93                      STA DIR
+F1C3  A9 00                      LDA #0       ;SEKBUF?
+F1C5  85 AF                      STA STEPCNT
+F1C7  85 B0                      STA STEPS
+F1C9  AD 00 04  RESTORE1         LDA FCNTRL
+F1CC  29 04                      AND #4       
+F1CE  F0 06                      BEQ RESTOR2
+F1D0  20 EF F1                   JSR HSTEP
+F1D3  4C C9 F1                   JMP RESTORE1
+
+#15 F1D6-F1E1 code_known 38063a5e628c553137571ca536e60f06
+F1D6  A5 9F     RESTOR2          LDA PHASE
+F1D8  C9 03                      CMP #3       
+F1DA  F0 06                      BEQ RESTOR3
+F1DC  20 EF F1                   JSR HSTEP
+F1DF  4C D6 F1                   JMP RESTOR2
+
+#16 F1E2-F1EE code_known 3e44185d781e107b595636e94faa9f42
+F1E2  A9 00     RESTOR3          LDA #0       ;SEKBUF?
+F1E4  8D 01 04                   STA TRKREG
+F1E7  85 AF                      STA STEPCNT
+F1E9  A2 C8                      LDX #$C8     
+F1EB  20 91 F1                   JSR DELAY1
+F1EE  60                         RTS 
+
+#17 F1EF-F1F9 code_known bc2eac97f5999b4102a3917281f7b38d
+F1EF  20 FA F1  HSTEP            JSR DOHSTEP
+F1F2  20 A0 F2                   JSR FORCE
+F1F5  A2 64                      LDX #$64     
+F1F7  4C 91 F1                   JMP DELAY1
+
+#18 F1FA-F209 code_known 06a62352bacd18df92968138a98dabbe
+F1FA  E6 AF     DOHSTEP          INC STEPCNT
+F1FC  A5 AF                      LDA STEPCNT
+F1FE  C9 78                      CMP #$78     
+F200  B0 07                      BCS STEPERR
+F202  AD 80 02                   LDA DRA
+F205  29 08                      AND #8       
+F207  F0 01                      BEQ STEP
+F209  00        STEPERR          BRK 
+
+#19 F20A-F230 code_known dac4e7da097f47620e16a84a3ea1620d
+F20A  A6 9F     STEP             LDX PHASE
+F20C  BD 00 F0                   LDA PHASE1,X
+F20F  49 FF                      EOR #$FF     
+F211  A8                         TAY 
+F212  24 93                      BIT DIR
+F214  10 09                      BPL STEPM
+F216  E8                         INX 
+F217  E0 04                      CPX #4       
+F219  D0 09                      BNE STEP1
+F21B  A2 00                      LDX #0       ;SEKBUF?
+F21D  F0 05                      BEQ STEP1
+F21F  CA        STEPM            DEX 
+F220  10 02                      BPL STEP1
+F222  A2 03                      LDX #3       
+F224  86 9F     STEP1            STX PHASE
+F226  98                         TYA 
+F227  0D 82 02                   ORA DRB
+F22A  3D 00 F0                   AND PHASE1,X
+F22D  8D 82 02                   STA DRB
+F230  60                         RTS 
+
+#20 F231-F23C code_known 350f3744ac9523be1a61792afec1bae8
+F231  20 A0 F2  SEEK             JSR FORCE
+F234  A5 8D                      LDA TRACK
+F236  38                         SEC 
+F237  ED 01 04                   SBC TRKREG
+F23A  D0 01                      BNE DOSTEPS
+F23C  60                         RTS 
+
+#21 F23D-F254 code_known 030a6e996ada4c750ab7c6d51d0ba283
+F23D  30 04     DOSTEPS          BMI DOST1
+F23F  A2 01                      LDX #1       
+F241  10 07                      BPL DOSTEP1
+F243  A2 FF     DOST1            LDX #$FF     
+F245  49 FF                      EOR #$FF     
+F247  18                         CLC 
+F248  69 01                      ADC #1       
+F24A  0A        DOSTEP1          ASL A
+F24B  10 08                      BPL DOSTEP2
+F24D  20 B9 F1                   JSR RESTORE
+F250  A9 80                      LDA #$80     ;RDRIVE?
+F252  85 90                      STA STATUS
+F254  60                         RTS 
+
+#22 F255-F2B1 code_known c99dfe198531887e3babf989e047dbd3
+F255  85 B0     DOSTEP2          STA STEPS
+F257  86 93                      STX DIR
+F259  A9 00                      LDA #0       ;SEKBUF?
+F25B  85 AF                      STA STEPCNT
+F25D  20 EF F1  DOSTEP3          JSR HSTEP
+F260  C6 B0                      DEC STEPS
+F262  D0 F9                      BNE DOSTEP3
+F264  24 93                      BIT DIR
+F266  30 18                      BMI CHKTRK
+F268  A9 FF                      LDA #$FF     
+F26A  85 B0                      STA STEPS
+F26C  A9 00                      LDA #0       ;SEKBUF?
+F26E  85 AF                      STA STEPCNT
+F270  20 EF F1                   JSR HSTEP
+F273  A9 FF                      LDA #$FF     
+F275  85 93                      STA DIR
+F277  20 EF F1                   JSR HSTEP
+F27A  A9 00                      LDA #0       ;SEKBUF?
+F27C  85 B0                      STA STEPS
+F27E  85 AF                      STA STEPCNT
+F280  A5 8D     CHKTRK           LDA TRACK
+F282  8D 01 04                   STA TRKREG
+F285  C9 14                      CMP #$14     
+F287  90 07                      BCC KTR20
+F289  A9 10                      LDA #$10     
+F28B  0D 80 02                   ORA DRA
+F28E  D0 05                      BNE GTR20
+F290  A9 EF     KTR20            LDA #$EF     
+F292  2D 80 02                   AND DRA
+F295  8D 80 02  GTR20            STA DRA
+F298  A2 C8                      LDX #$C8     
+F29A  20 91 F1                   JSR DELAY1
+F29D  20 A0 F2  DFORCE           JSR FORCE
+F2A0  A9 D0     FORCE            LDA #$D0     
+F2A2  8D 00 04                   STA FCNTRL
+F2A5  A2 07                      LDX #7       
+F2A7  CA        FORC1            DEX 
+F2A8  D0 FD                      BNE FORC1
+F2AA  A9 00                      LDA #0       ;SEKBUF?
+F2AC  2C 00 04  FORC2            BIT FCNTRL
+F2AF  D0 FB                      BNE FORC2
+F2B1  60                         RTS 
+
+#23 F2B2-F2BB code_known fe5fcc349e5ecc2cd95b6e794711f5b0
+F2B2  A9 02     TKOMND           LDA #2       
+F2B4  2C 82 02                   BIT DRB
+F2B7  D0 02                      BNE NOKOM
+F2B9  30 01                      BMI TKOM1
+F2BB  60        NOKOM            RTS 
+
+#24 F2BC-F307 code_known 36c1d4fa300867e2af8ac4ef97d15755
+F2BC  20 B8 F3  TKOM1            JSR RDKOM
+F2BF  24 91                      BIT ERROR
+F2C1  70 3B                      BVS NEXT
+F2C3  20 08 F3                   JSR PROCESS
+F2C6  24 91                      BIT ERROR
+F2C8  30 34                      BMI NEXT
+F2CA  50 0B                      BVC KOK
+F2CC  20 74 F3                   JSR SENDNAK
+F2CF  A5 90                      LDA STATUS
+F2D1  09 01                      ORA #1       
+F2D3  85 90                      STA STATUS
+F2D5  D0 27                      BNE NEXT
+F2D7  20 6E F3  KOK              JSR SENDA
+F2DA  A5 91                      LDA ERROR
+F2DC  29 01                      AND #1       
+F2DE  F0 15                      BEQ DOKOM
+F2E0  20 C7 F3                   JSR SLOAD
+F2E3  24 91                      BIT ERROR
+F2E5  50 0B                      BVC KOK1
+F2E7  20 74 F3                   JSR SENDNAK
+F2EA  A5 90                      LDA STATUS
+F2EC  09 02                      ORA #2       
+F2EE  85 90                      STA STATUS
+F2F0  D0 0C                      BNE NEXT
+F2F2  20 6E F3  KOK1             JSR SENDA
+F2F5  20 6E F4  DOKOM            JSR EXECUTE
+F2F8  A5 90                      LDA STATUS
+F2FA  29 FC                      AND #$FC     
+F2FC  85 90                      STA STATUS
+F2FE  A2 04     NEXT             LDX #4       
+F300  A9 00                      LDA #0       ;SEKBUF?
+F302  95 80     EBCL             STA RDRIVE,X
+F304  CA                         DEX 
+F305  10 FB                      BPL EBCL
+F307  60                         RTS 
+
+#25 F308-F363 code_known 2d6919211eec3f4ddc3a7cdae7bad3eb
+F308  AD 80 02  PROCESS          LDA DRA
+F30B  29 03                      AND #3       
+F30D  AA                         TAX 
+F30E  BD 0D F0                   LDA DRVNR,X
+F311  C5 80                      CMP RDRIVE
+F313  D0 4F                      BNE ERR80
+F315  A2 07                      LDX #7       
+F317  A5 81                      LDA RKOMND
+F319  DD 05 F0  KOMSUCH          CMP READSEK,X
+F31C  F0 05                      BEQ KOMFND
+F31E  CA                         DEX 
+F31F  10 F8                      BPL KOMSUCH
+F321  30 46                      BMI ERR40
+F323  86 98     KOMFND           STX KOMND
+F325  E0 03                      CPX #3       
+F327  B0 21                      BCS NOSEK
+F329  A5 82                      LDA RSEKL
+F32B  18                         CLC 
+F32C  05 83                      ORA RSEKH
+F32E  F0 39                      BEQ ERR40
+F330  AD 80 02                   LDA DRA
+F333  29 20                      AND #$20     
+F335  F0 06                      BEQ ZF33D
+F337  A2 D0                      LDX #$D0     
+F339  A0 02                      LDY #2       
+F33B  D0 04                      BNE TSANZ
+F33D  A2 10     ZF33D            LDX #$10     
+F33F  A0 04                      LDY #4       
+F341  38        TSANZ            SEC 
+F342  8A                         TXA 
+F343  E5 82                      SBC RSEKL
+F345  98                         TYA 
+F346  E5 83                      SBC RSEKH
+F348  90 1F                      BCC ERR40
+F34A  A5 81     NOSEK            LDA RKOMND
+F34C  CD 06 F0                   CMP WRITSEK
+F34F  F0 0E                      BEQ LSSET
+F351  CD 07 F0                   CMP WRVESEK
+F354  F0 09                      BEQ LSSET
+F356  CD 0B F0                   CMP SPEZIAL
+F359  F0 04                      BEQ LSSET
+F35B  A9 00                      LDA #0       ;SEKBUF?
+F35D  F0 02                      BEQ NOLS
+F35F  A9 01     LSSET            LDA #1       
+F361  85 91     NOLS             STA ERROR
+F363  60                         RTS 
+
+#26 F364-F368 code_known 6ba736e0a568cb8293532aacd81794c5
+F364  A9 80     ERR80            LDA #$80     ;RDRIVE?
+F366  85 91                      STA ERROR
+F368  60                         RTS 
+
+#27 F369-F36D code_known b8ae26fc1266fba02fc5b49f6435c2a6
+F369  A9 40     ERR40            LDA #$40     
+F36B  85 91                      STA ERROR
+F36D  60                         RTS 
+
+#28 F36E-F373 code_known 6ecc264e0caa03a9c8030d398dff9644
+F36E  A0 41     SENDA            LDY #$41     
+F370  20 24 F4                   JSR SBYTE
+F373  60                         RTS 
+
+#29 F374-F379 code_known 41dff8345d8adaea72158a65e5db5ad3
+F374  A0 4E     SENDNAK          LDY #$4E     
+F376  20 24 F4                   JSR SBYTE
+F379  60                         RTS 
+
+#30 F37A-F37F code_known d490ba15e9280fd67c0694ae3b6ad9f1
+F37A  A0 43     SCONT            LDY #$43     
+F37C  20 24 F4                   JSR SBYTE
+F37F  60                         RTS 
+
+#31 F380-F385 code_known ae3842c15bc1031ef3a62f1d30e6b9c3
+F380  A0 45     SERROR           LDY #$45     
+F382  20 24 F4                   JSR SBYTE
+F385  60                         RTS 
+
+#32 F386-F3B2 code_known 30deec4bc42935c65193c8c98001cf00
+F386  86 B3     RDBYTE           STX SBUF+2
+F388  2C 80 02  WSB              BIT DRA
+F38B  50 26                      BVC ERR1
+F38D  2C 82 02                   BIT DRB
+F390  50 F6                      BVC WSB
+F392  38                         SEC 
+F393  A9 80                      LDA #$80     ;RDRIVE?
+F395  A2 06                      LDX #6       
+F397  CA        WHB              DEX 
+F398  D0 FD                      BNE WHB
+F39A  A2 06     W32B             LDX #6       
+F39C  CA        W32B1            DEX 
+F39D  D0 FD                      BNE W32B1
+F39F  EA                         NOP 
+F3A0  EA                         NOP 
+F3A1  EA                         NOP 
+F3A2  2C 82 02                   BIT DRB
+F3A5  50 03                      BVC BIT1
+F3A7  18                         CLC 
+F3A8  90 02                      BCC NXTBIT
+F3AA  38        BIT1             SEC 
+F3AB  EA                         NOP 
+F3AC  6A        NXTBIT           ROR A
+F3AD  90 EB                      BCC W32B
+F3AF  A8                         TAY 
+F3B0  A6 B3                      LDX SBUF+2
+F3B2  60                         RTS 
+
+#33 F3B3-F3B7 code_known 06e6a3ca3c6644f8973b33b79c6d90f8
+F3B3  68        ERR1             PLA 
+F3B4  68                         PLA 
+F3B5  4C FD F3                   JMP ERRSTAT
+
+#34 F3B8-F3C6 code_known 8f65f570fad3501b026916625cc0efe4
+F3B8  A9 04     RDKOM            LDA #4       
+F3BA  85 92                      STA COUNT
+F3BC  A2 80                      LDX #$80     ;RDRIVE?
+F3BE  20 D6 F3                   JSR RDTO
+F3C1  2C 82 02  NOTKOM           BIT DRB
+F3C4  30 FB                      BMI NOTKOM
+F3C6  60                         RTS 
+
+#35 F3C7-F3D5 code_known d0c751993f588fff19df237d7f3adb3a
+F3C7  A9 80     SLOAD            LDA #$80     ;RDRIVE?
+F3C9  85 92                      STA COUNT
+F3CB  A2 00                      LDX #0       ;SEKBUF?
+F3CD  20 D6 F3                   JSR RDTO
+F3D0  A2 09                      LDX #9       
+F3D2  20 91 F1                   JSR DELAY1
+F3D5  60                         RTS 
+
+#36 F3D6-F404 code_known c9b33ad2c4b7a8b96cd2ee8050f0c7c9
+F3D6  A9 FF     RDTO             LDA #$FF     
+F3D8  20 C4 F5                   JSR TIMEOUT
+F3DB  A9 00                      LDA #0       ;SEKBUF?
+F3DD  85 B1                      STA SBUF
+F3DF  20 86 F3  RNXTB            JSR RDBYTE
+F3E2  94 00                      STY SEKBUF,X
+F3E4  18                         CLC 
+F3E5  A5 B1                      LDA SBUF
+F3E7  75 00                      ADC SEKBUF,X
+F3E9  69 00                      ADC #0       ;SEKBUF?
+F3EB  85 B1                      STA SBUF
+F3ED  E8                         INX 
+F3EE  C6 92                      DEC COUNT
+F3F0  D0 ED                      BNE RNXTB
+F3F2  20 86 F3                   JSR RDBYTE
+F3F5  94 00                      STY SEKBUF,X
+F3F7  A5 B1                      LDA SBUF
+F3F9  55 00                      EOR SEKBUF,X
+F3FB  F0 02                      BEQ NORERR
+F3FD  A9 40     ERRSTAT          LDA #$40     
+F3FF  85 91     NORERR           STA ERROR
+F401  AD 96 02                   LDA TIM64
+F404  60                         RTS 
+
+#37 F405-F41A code_known f52959109d6ce286ef6648c3f0180d2f
+F405  A9 00     SEND             LDA #0       ;SEKBUF?
+F407  18        SEND1            CLC 
+F408  B4 00                      LDY SEKBUF,X
+F40A  75 00                      ADC SEKBUF,X
+F40C  69 00                      ADC #0       ;SEKBUF?
+F40E  20 24 F4                   JSR SBYTE
+F411  E8                         INX 
+F412  C6 92                      DEC COUNT
+F414  D0 F1                      BNE SEND1
+F416  A8                         TAY 
+F417  20 24 F4                   JSR SBYTE
+F41A  60                         RTS 
+
+#38 F41B-F423 code_known 288c14fe6291b7b59784463f196fa958
+F41B  A9 80     SNDSEK           LDA #$80     ;RDRIVE?
+F41D  85 92                      STA COUNT
+F41F  A2 00                      LDX #0       ;SEKBUF?
+F421  4C 05 F4                   JMP SEND
+
+#39 F424-F46D code_known 551cc87a3db93d4d6bea8245983ad1f3
+F424  84 B1     SBYTE            STY SBUF
+F426  85 B2                      STA SBUF+1
+F428  86 B3                      STX SBUF+2
+F42A  A0 08                      LDY #8       
+F42C  A9 FE                      LDA #$FE     
+F42E  2D 82 02                   AND DRB
+F431  8D 82 02                   STA DRB
+F434  E6 B3                      INC SBUF+2
+F436  66 B1     SBYTE1           ROR SBUF
+F438  90 07                      BCC SBIT0
+F43A  A9 01                      LDA #1       
+F43C  0D 82 02                   ORA DRB
+F43F  D0 06                      BNE SBIT
+F441  A9 FE     SBIT0            LDA #$FE     
+F443  2D 82 02                   AND DRB
+F446  EA                         NOP 
+F447  A2 05     SBIT             LDX #5       
+F449  CA        SBIT2            DEX 
+F44A  D0 FD                      BNE SBIT2
+F44C  8D 82 02                   STA DRB
+F44F  88                         DEY 
+F450  D0 E4                      BNE SBYTE1
+F452  A2 06                      LDX #6       
+F454  CA        SBIT3            DEX 
+F455  D0 FD                      BNE SBIT3
+F457  EA                         NOP 
+F458  C6 B3                      DEC SBUF+2
+F45A  A9 01                      LDA #1       
+F45C  0D 82 02                   ORA DRB
+F45F  8D 82 02                   STA DRB
+F462  A2 05                      LDX #5       
+F464  CA        SBIT4            DEX 
+F465  D0 FD                      BNE SBIT4
+F467  A6 B3                      LDX SBUF+2
+F469  A4 B1                      LDY SBUF
+F46B  A5 B2                      LDA SBUF+1
+F46D  60                         RTS 
+
+#40 F46E-F47C code_known 4565ad92104db8e657fd83d1c6eac0f8
+F46E  A6 98     EXECUTE          LDX KOMND
+F470  BD E0 FF                   LDA JMPTBL,X
+F473  85 99                      STA JUMPL
+F475  BD E8 FF                   LDA JMPTBH,X
+F478  85 9A                      STA JUMPH
+F47A  6C 99 00                   JMP (JUMPL)
+
+#41 F47D-F4A7 code_known ffd750aa219880b1cec91dfb14ef96ef
+F47D  A4 82     COMTS            LDY RSEKL
+F47F  84 B1                      STY SBUF
+F481  A4 83                      LDY RSEKH
+F483  84 B2                      STY SBUF+1
+F485  A0 00                      LDY #0       ;SEKBUF?
+F487  84 8D                      STY TRACK
+F489  84 8E                      STY SEKTOR
+F48B  C8                         INY 
+F48C  20 A8 F4                   JSR SUBY
+F48F  A9 20                      LDA #$20     
+F491  2D 80 02                   AND DRA
+F494  D0 04                      BNE SINGLE
+F496  A0 1A                      LDY #$1A     
+F498  D0 02                      BNE COMTS1
+F49A  A0 12     SINGLE           LDY #$12     
+F49C  20 A8 F4  COMTS1           JSR SUBY
+F49F  90 04                      BCC TOMUCH
+F4A1  E6 8D                      INC TRACK
+F4A3  B0 F7                      BCS COMTS1
+F4A5  E6 8E     TOMUCH           INC SEKTOR
+F4A7  60                         RTS 
+
+#42 F4A8-F4B9 code_known fa0fb190278da42c086344361a8644e6
+F4A8  84 95     SUBY             STY HZ95
+F4AA  38                         SEC 
+F4AB  A5 B1                      LDA SBUF
+F4AD  85 8E                      STA SEKTOR
+F4AF  E5 95                      SBC HZ95
+F4B1  85 B1                      STA SBUF
+F4B3  A5 B2                      LDA SBUF+1
+F4B5  E9 00                      SBC #0       ;SEKBUF?
+F4B7  85 B2                      STA SBUF+1
+F4B9  60                         RTS 
+
+#43 F4BA-F4C2 code_known 98b9f9de1a02ba0dccb00255a3b565de
+F4BA  20 C3 F4  READ             JSR SREAD
+F4BD  20 29 F5                   JSR QUITT
+F4C0  4C 1B F4                   JMP SNDSEK
+
+#44 F4C3-F4CB code_known 8b1283ca6f1bbad592150193623aad51
+F4C3  20 15 F5  SREAD            JSR SETUP
+F4C6  2C 00 04                   BIT FCNTRL
+F4C9  10 01                      BPL READ1
+F4CB  60                         RTS 
+
+#45 F4CC-F4D1 code_known 0a97656e9f667b0bfb11bee59546ac5a
+F4CC  20 31 F2  READ1            JSR SEEK
+F4CF  F0 01                      BEQ READ2
+F4D1  60                         RTS 
+
+#46 F4D2-F4E0 code_known 33434e5094f1b2b8d29b70f5fe48df70
+F4D2  A5 8E     READ2            LDA SEKTOR
+F4D4  8D 02 04                   STA SEKREG
+F4D7  20 4B F5                   JSR RDSEKTOR
+F4DA  D0 05                      BNE READ3
+F4DC  A9 00                      LDA #0       ;SEKBUF?
+F4DE  85 91                      STA ERROR
+F4E0  60                         RTS 
+
+#47 F4E1-F4F1 code_known 304a8b1681f4ca532ee6ef7bca995d50
+F4E1  C6 92     READ3            DEC COUNT
+F4E3  F0 2F                      BEQ READ4
+F4E5  AD 00 04                   LDA FCNTRL
+F4E8  29 10                      AND #$10     
+F4EA  F0 06                      BEQ READ5
+F4EC  20 B9 F1                   JSR RESTORE
+F4EF  4C CC F4                   JMP READ1
+
+#48 F4F2-F513 code_known b5a99b814a5abef685541d0f9e369381
+F4F2  A9 01     READ5            LDA #1       
+F4F4  C5 92                      CMP COUNT
+F4F6  D0 D4                      BNE READ1
+F4F8  A9 00                      LDA #0       ;SEKBUF?
+F4FA  85 AF                      STA STEPCNT
+F4FC  A9 FF                      LDA #$FF     
+F4FE  85 B0                      STA STEPS
+F500  85 93                      STA DIR
+F502  20 EF F1                   JSR HSTEP
+F505  A9 01                      LDA #1       
+F507  85 93                      STA DIR
+F509  20 EF F1                   JSR HSTEP
+F50C  A2 C8                      LDX #$C8     
+F50E  20 91 F1                   JSR DELAY1
+F511  4C CC F4                   JMP READ1
+
+#49 F514-F514 code_known 833344d5e1432da82ef02e1301477ce8
+F514  60        READ4            RTS 
+
+#50 F515-F528 code_known 387d94857a36fcc0f72fd722265fa9ed
+F515  A9 80     SETUP            LDA #$80     ;RDRIVE?
+F517  85 91                      STA ERROR
+F519  A9 02                      LDA #2       
+F51B  85 92                      STA COUNT
+F51D  20 7D F4                   JSR COMTS
+F520  2C 00 04                   BIT FCNTRL
+F523  30 03                      BMI SETUP1
+F525  20 80 F1                   JSR TMOTON
+F528  60        SETUP1           RTS 
+
+#51 F529-F540 code_known 3839e9eba93b27d7ce0ad73a3f455418
+F529  A2 02     QUITT            LDX #2       
+F52B  20 91 F1                   JSR DELAY1
+F52E  AD 00 04                   LDA FCNTRL
+F531  85 8F                      STA CSTAT
+F533  24 91                      BIT ERROR
+F535  30 0A                      BMI QUITTE
+F537  A5 90                      LDA STATUS
+F539  29 9B                      AND #$9B     
+F53B  85 90                      STA STATUS
+F53D  20 7A F3                   JSR SCONT
+F540  60                         RTS 
+
+#52 F541-F54A code_known ddaa80dbf7b71c27e1e01f3382f861c4
+F541  A5 90     QUITTE           LDA STATUS
+F543  09 04                      ORA #4       
+F545  85 90                      STA STATUS
+F547  20 80 F3                   JSR SERROR
+F54A  60                         RTS 
+
+#53 F54B-F577 code_known 410f6911d18a40b8c8a872b42b0e275e
+F54B  A2 00     RDSEKTOR         LDX #0       ;SEKBUF?
+F54D  A9 E6                      LDA #$E6     
+F54F  20 C4 F5                   JSR TIMEOUT
+F552  A9 82                      LDA #$82     
+F554  8D 00 04                   STA FCNTRL
+F557  2C 80 02  READSE1          BIT DRA
+F55A  50 1C                      BVC READSE2
+F55C  10 F9                      BPL READSE1
+F55E  AD 03 04                   LDA DATREG
+F561  49 FF                      EOR #$FF     
+F563  95 00                      STA SEKBUF,X
+F565  AD 96 02                   LDA TIM64
+F568  E8                         INX 
+F569  10 EC                      BPL READSE1
+F56B  A9 01                      LDA #1       
+F56D  2C 00 04  READSE3          BIT FCNTRL
+F570  D0 FB                      BNE READSE3
+F572  AD 00 04                   LDA FCNTRL
+F575  29 2C                      AND #$2C     
+F577  60                         RTS 
+
+#54 F578-F592 code_known 25272d31cb8446d7cb529291dba176fc
+F578  AD 00 04  READSE2          LDA FCNTRL
+F57B  29 01                      AND #1       
+F57D  F0 07                      BEQ READSE4
+F57F  A9 E6                      LDA #$E6     
+F581  20 C4 F5                   JSR TIMEOUT
+F584  D0 D1                      BNE READSE1
+F586  AD 96 02  READSE4          LDA TIM64
+F589  AD 00 04                   LDA FCNTRL
+F58C  29 04                      AND #4       
+F58E  D0 BB                      BNE RDSEKTOR
+F590  A9 01                      LDA #1       
+F592  60                         RTS 
+
+#55 F593-F5BD code_known dafdd78f35baeecf46906dc0ea677201
+F593  A2 7A     RDADR            LDX #$7A     ;ATRACK?
+F595  A9 80                      LDA #$80     ;RDRIVE?
+F597  20 C4 F5                   JSR TIMEOUT
+F59A  A9 C0                      LDA #$C0     
+F59C  8D 00 04                   STA FCNTRL
+F59F  2C 80 02  RDADR1           BIT DRA
+F5A2  50 1A                      BVC RDADR3
+F5A4  10 F9                      BPL RDADR1
+F5A6  AD 03 04                   LDA DATREG
+F5A9  95 00                      STA SEKBUF,X
+F5AB  AD 96 02                   LDA TIM64
+F5AE  E8                         INX 
+F5AF  10 EE                      BPL RDADR1
+F5B1  A9 01                      LDA #1       
+F5B3  2C 00 04  RDADR2           BIT FCNTRL
+F5B6  D0 FB                      BNE RDADR2
+F5B8  AD 00 04                   LDA FCNTRL
+F5BB  29 0C                      AND #$0C     
+F5BD  60                         RTS 
+
+#56 F5BE-F5C3 code_known 0b19353ee0a97a6e4f6e772c176f46d2
+F5BE  20 9D F2  RDADR3           JSR DFORCE
+F5C1  A9 01                      LDA #1       
+F5C3  60                         RTS 
+
+#57 F5C4-F5CA code_known 932054bb09c8485122a73b72f397345e
+F5C4  8D 96 02  TIMEOUT          STA TIM64
+F5C7  8D 9F 02                   STA T1024I
+F5CA  60                         RTS 
+
+#58 F5CB-F5D1 code_known 30d9d31094905361ed7051257accad85
+F5CB  20 D2 F5  WRITE            JSR WRITE1
+F5CE  20 29 F5                   JSR QUITT
+F5D1  60                         RTS 
+
+#59 F5D2-F5DA code_known 8b1283ca6f1bbad592150193623aad51
+F5D2  20 15 F5  WRITE1           JSR SETUP
+F5D5  2C 00 04                   BIT FCNTRL
+F5D8  10 01                      BPL WRITE2
+F5DA  60                         RTS 
+
+#60 F5DB-F5E0 code_known 0a97656e9f667b0bfb11bee59546ac5a
+F5DB  20 31 F2  WRITE2           JSR SEEK
+F5DE  F0 01                      BEQ WRITE3
+F5E0  60                         RTS 
+
+#61 F5E1-F5EF code_known 33434e5094f1b2b8d29b70f5fe48df70
+F5E1  A5 8E     WRITE3           LDA SEKTOR
+F5E3  8D 02 04                   STA SEKREG
+F5E6  20 FB F5                   JSR WRSEKTOR
+F5E9  D0 05                      BNE WRITE4
+F5EB  A9 00                      LDA #0       ;SEKBUF?
+F5ED  85 91                      STA ERROR
+F5EF  60                         RTS 
+
+#62 F5F0-F5F9 code_known 4e76ae002a51e711cd07a7c64debe36e
+F5F0  C6 92     WRITE4           DEC COUNT
+F5F2  F0 06                      BEQ WRITE5
+F5F4  20 B9 F1                   JSR RESTORE
+F5F7  4C DB F5                   JMP WRITE2
+
+#63 F5FA-F5FA code_known 833344d5e1432da82ef02e1301477ce8
+F5FA  60        WRITE5           RTS 
+
+#64 F5FB-F627 code_known 84922fbcbdcea3a4e6ae9c1921537c99
+F5FB  A2 00     WRSEKTOR         LDX #0       ;SEKBUF?
+F5FD  A9 E6                      LDA #$E6     
+F5FF  20 C4 F5                   JSR TIMEOUT
+F602  A9 A2                      LDA #$A2     
+F604  8D 00 04                   STA FCNTRL
+F607  B5 00     WRITSE1          LDA SEKBUF,X
+F609  49 FF                      EOR #$FF     
+F60B  2C 80 02  WRITSE2          BIT DRA
+F60E  50 18                      BVC WRITSE3
+F610  10 F9                      BPL WRITSE2
+F612  8D 03 04                   STA DATREG
+F615  AD 96 02                   LDA TIM64
+F618  E8                         INX 
+F619  10 EC                      BPL WRITSE1
+F61B  A9 01                      LDA #1       
+F61D  2C 00 04  WRITSE4          BIT FCNTRL
+F620  D0 FB                      BNE WRITSE4
+F622  AD 00 04                   LDA FCNTRL
+F625  29 0C                      AND #$0C     
+F627  60                         RTS 
+
+#65 F628-F643 code_known ecbd80676980f160d70b48007ecbd5b4
+F628  AD 00 04  WRITSE3          LDA FCNTRL
+F62B  29 01                      AND #1       
+F62D  F0 07                      BEQ WRITSE5
+F62F  A9 E6                      LDA #$E6     
+F631  20 C4 F5                   JSR TIMEOUT
+F634  D0 D1                      BNE WRITSE1
+F636  AD 96 02  WRITSE5          LDA TIM64
+F639  AD 00 04                   LDA FCNTRL
+F63C  29 04                      AND #4       
+F63E  D0 BB                      BNE WRSEKTOR
+F640  AD 00 04                   LDA FCNTRL
+F643  60                         RTS 
+
+#66 F644-F655 code_known 74a185ad5d038051b266129015c1d14d
+F644  20 D2 F5  VWRITE           JSR WRITE1
+F647  24 91                      BIT ERROR
+F649  30 07                      BMI VWRITE1
+F64B  A9 02                      LDA #2       
+F64D  85 92                      STA COUNT
+F64F  20 56 F6                   JSR VERIFY
+F652  20 29 F5  VWRITE1          JSR QUITT
+F655  60                         RTS 
+
+#67 F656-F663 code_known 0008c511462b17146a0273781227169a
+F656  A9 80     VERIFY           LDA #$80     ;RDRIVE?
+F658  85 91                      STA ERROR
+F65A  20 69 F6                   JSR VERSEK
+F65D  D0 05                      BNE VERIFY1
+F65F  A9 00                      LDA #0       ;SEKBUF?
+F661  85 91                      STA ERROR
+F663  60                         RTS 
+
+#68 F664-F668 code_known deab828865bb03b9dcfc42294c646e6e
+F664  C6 92     VERIFY1          DEC COUNT
+F666  D0 EE                      BNE VERIFY
+F668  60                         RTS 
+
+#69 F669-F697 code_known 8bd4992926307180f9eaa77f11b85ae8
+F669  A2 00     VERSEK           LDX #0       ;SEKBUF?
+F66B  A9 E6                      LDA #$E6     
+F66D  20 C4 F5                   JSR TIMEOUT
+F670  A9 82                      LDA #$82     
+F672  8D 00 04                   STA FCNTRL
+F675  2C 80 02  VERSE1           BIT DRA
+F678  50 1E                      BVC VERSE2
+F67A  10 F9                      BPL VERSE1
+F67C  AD 03 04                   LDA DATREG
+F67F  49 FF                      EOR #$FF     
+F681  D5 00                      CMP SEKBUF,X
+F683  D0 21                      BNE VERSE3
+F685  AD 96 02                   LDA TIM64
+F688  E8                         INX 
+F689  10 EA                      BPL VERSE1
+F68B  A9 01                      LDA #1       
+F68D  2C 00 04  VERSE4           BIT FCNTRL
+F690  D0 FB                      BNE VERSE4
+F692  AD 00 04                   LDA FCNTRL
+F695  29 2C                      AND #$2C     
+F697  60                         RTS 
+
+#70 F698-F6BD code_known 5e1d1bb99b99931a63db74ac6ceef57b
+F698  AD 00 04  VERSE2           LDA FCNTRL
+F69B  29 01                      AND #1       
+F69D  F0 12                      BEQ VERSE5
+F69F  A9 E6                      LDA #$E6     
+F6A1  20 C4 F5                   JSR TIMEOUT
+F6A4  D0 CF                      BNE VERSE1
+F6A6  AD 96 02  VERSE3           LDA TIM64
+F6A9  86 A3                      STX ERRADR
+F6AB  20 A0 F2                   JSR FORCE
+F6AE  AD 03 04                   LDA DATREG
+F6B1  AD 96 02  VERSE5           LDA TIM64
+F6B4  AD 00 04                   LDA FCNTRL
+F6B7  29 04                      AND #4       
+F6B9  D0 AE                      BNE VERSEK
+F6BB  A9 01                      LDA #1       
+F6BD  60                         RTS 
+
+#71 F6BE-F6CE code_known ed3b0fc95ac42edf74ecaa97d76db93f
+F6BE  20 A0 F2  RSTAT            JSR FORCE
+F6C1  AD 80 02                   LDA DRA
+F6C4  29 20                      AND #$20     
+F6C6  F0 07                      BEQ RSTAT1
+F6C8  A9 1F                      LDA #$1F     
+F6CA  25 90                      AND STATUS
+F6CC  4C D3 F6                   JMP RSTAT2
+
+#72 F6CF-F706 code_known 0ae22de86876da91fa32f65fb9f906e1
+F6CF  A9 80     RSTAT1           LDA #$80     ;RDRIVE?
+F6D1  05 90                      ORA STATUS
+F6D3  2C 00 04  RSTAT2           BIT FCNTRL
+F6D6  50 04                      BVC RSTAT3
+F6D8  09 08                      ORA #8       
+F6DA  D0 02                      BNE RSTAT4
+F6DC  29 F7     RSTAT3           AND #$F7     
+F6DE  A2 00     RSTAT4           LDX #0       ;SEKBUF?
+F6E0  95 A5                      STA BUFFER,X
+F6E2  E8                         INX 
+F6E3  A5 8F                      LDA CSTAT
+F6E5  49 FF                      EOR #$FF     
+F6E7  95 A5                      STA BUFFER,X
+F6E9  E8                         INX 
+F6EA  A9 E0                      LDA #$E0     
+F6EC  95 A5                      STA BUFFER,X
+F6EE  E8                         INX 
+F6EF  A9 00                      LDA #0       ;SEKBUF?
+F6F1  95 A5                      STA BUFFER,X
+F6F3  85 91                      STA ERROR
+F6F5  20 7A F3                   JSR SCONT
+F6F8  A2 04                      LDX #4       
+F6FA  86 92                      STX COUNT
+F6FC  A2 A5                      LDX #$A5     ;BUFFER?
+F6FE  20 05 F4                   JSR SEND
+F701  AD 00 04                   LDA FCNTRL
+F704  85 8F                      STA CSTAT
+F706  60                         RTS 
+
+#73 F707-F72C code_known 0b3287517af9d02fa5ec081c38bf836c
+F707  20 2D F7  SFORM            JSR SDF
+F70A  24 91     FORMVER          BIT ERROR
+F70C  30 03                      BMI SFORM1
+F70E  20 52 FA                   JSR VERIF0
+F711  AD 96 02  SFORM1           LDA TIM64
+F714  20 29 F5                   JSR QUITT
+F717  A9 FF                      LDA #$FF     
+F719  A2 00                      LDX #0       ;SEKBUF?
+F71B  95 00     SFORM2           STA SEKBUF,X
+F71D  E8                         INX 
+F71E  10 FB                      BPL SFORM2
+F720  24 91                      BIT ERROR
+F722  10 06                      BPL SFORM3
+F724  A9 00                      LDA #0       ;SEKBUF?
+F726  85 00                      STA SEKBUF
+F728  85 01                      STA SEKBUF+1
+F72A  4C 1B F4  SFORM3           JMP SNDSEK
+
+#74 F72D-F749 code_known 70370114391365543d18365239908509
+F72D  20 22 FA  SDF              JSR BSEKT
+F730  A9 00                      LDA #0       ;SEKBUF?
+F732  85 01                      STA SEKBUF+1
+F734  AD 80 02                   LDA DRA
+F737  09 20                      ORA #$20     
+F739  8D 80 02                   STA DRA
+F73C  2C 00 04  SDF1             BIT FCNTRL
+F73F  30 04                      BMI SDF2
+F741  70 02                      BVS SDF2
+F743  10 05                      BPL SDF3
+F745  A9 80     SDF2             LDA #$80     ;RDRIVE?
+F747  85 91                      STA ERROR
+F749  60                         RTS 
+
+#75 F74A-F75D code_known 73463f6de8acdc53e600a5837db490a7
+F74A  20 31 F2  SDF3             JSR SEEK
+F74D  A9 02                      LDA #2       
+F74F  85 92                      STA COUNT
+F751  20 69 F7                   JSR F1T
+F754  A2 D2                      LDX #$D2     
+F756  8E 9F 02                   STX T1024I
+F759  24 91                      BIT ERROR
+F75B  10 01                      BPL SDF4
+F75D  60                         RTS 
+
+#76 F75E-F768 code_known 49e8b499f0b288bbbdd1999ccb89318e
+F75E  E6 8D     SDF4             INC TRACK
+F760  E6 89                      INC FTNR
+F762  A9 28                      LDA #$28     
+F764  C5 8D                      CMP TRACK
+F766  D0 D4                      BNE SDF1
+F768  60                         RTS 
+
+#77 F769-F7BC code_known 98ac1b050a5e0e9777a8628be5d0b5cc
+F769  A0 00     F1T              LDY #0       ;SEKBUF?
+F76B  B9 07 FA                   LDA SKEWTB,Y
+F76E  85 87                      STA FSNR
+F770  A9 F0                      LDA #$F0     
+F772  8D 00 04                   STA FCNTRL
+F775  A9 D2                      LDA #$D2     
+F777  2C 80 02  F1T1             BIT DRA
+F77A  10 FB                      BPL F1T1
+F77C  8C 03 04                   STY DATREG
+F77F  2C 80 02  F1T2             BIT DRA
+F782  10 FB                      BPL F1T2
+F784  8C 03 04                   STY DATREG
+F787  8D 9F 02                   STA T1024I
+F78A  A9 00                      LDA #0       ;SEKBUF?
+F78C  A2 AC                      LDX #$AC     
+F78E  2C 80 02  F1T3             BIT DRA
+F791  50 27                      BVC F1T4
+F793  10 F9                      BPL F1T3
+F795  8D 03 04                   STA DATREG
+F798  CA                         DEX 
+F799  D0 F3                      BNE F1T3
+F79B  A9 FC                      LDA #$FC     
+F79D  2C 80 02  F1T5             BIT DRA
+F7A0  50 18                      BVC F1T4
+F7A2  10 F9                      BPL F1T5
+F7A4  8D 03 04                   STA DATREG
+F7A7  A9 00                      LDA #0       ;SEKBUF?
+F7A9  A2 10                      LDX #$10     
+F7AB  2C 80 02  F1T6             BIT DRA
+F7AE  50 0A                      BVC F1T4
+F7B0  10 F9                      BPL F1T6
+F7B2  8D 03 04                   STA DATREG
+F7B5  CA                         DEX 
+F7B6  D0 F3                      BNE F1T6
+F7B8  F0 03                      BEQ F1T7
+F7BA  4C 4D F8  F1T4             JMP F1T8
+
+#78 F7BD-F824 code_known 8f8be0f7a585dacbcabf644e4622f640
+F7BD  A9 00     F1T7             LDA #0       ;SEKBUF?
+F7BF  A2 06                      LDX #6       
+F7C1  2C 80 02  F1T9             BIT DRA
+F7C4  50 F4                      BVC F1T4
+F7C6  10 F9                      BPL F1T9
+F7C8  8D 03 04                   STA DATREG
+F7CB  CA                         DEX 
+F7CC  D0 F3                      BNE F1T9
+F7CE  A2 05                      LDX #5       
+F7D0  B5 85     F1T10            LDA FDATA,X
+F7D2  2C 80 02  F1T11            BIT DRA
+F7D5  50 E3                      BVC F1T4
+F7D7  10 F9                      BPL F1T11
+F7D9  8D 03 04                   STA DATREG
+F7DC  CA                         DEX 
+F7DD  10 F1                      BPL F1T10
+F7DF  A9 00                      LDA #0       ;SEKBUF?
+F7E1  A2 11                      LDX #$11     
+F7E3  2C 80 02  F1T12            BIT DRA
+F7E6  50 D2                      BVC F1T4
+F7E8  10 F9                      BPL F1T12
+F7EA  8D 03 04                   STA DATREG
+F7ED  CA                         DEX 
+F7EE  D0 F3                      BNE F1T12
+F7F0  A2 83                      LDX #$83     
+F7F2  B5 00     F1T13            LDA SEKBUF,X
+F7F4  2C 80 02  F1T14            BIT DRA
+F7F7  50 C1                      BVC F1T4
+F7F9  10 F9                      BPL F1T14
+F7FB  8D 03 04                   STA DATREG
+F7FE  CA                         DEX 
+F7FF  D0 F1                      BNE F1T13
+F801  C8                         INY 
+F802  C0 09                      CPY #9       
+F804  D0 02                      BNE F1T15
+F806  A0 0D                      LDY #$0D     
+F808  C0 16     F1T15            CPY #$16     
+F80A  F0 19                      BEQ F1T16
+F80C  B9 07 FA                   LDA SKEWTB,Y
+F80F  85 87                      STA FSNR
+F811  A9 00                      LDA #0       ;SEKBUF?
+F813  A2 0B                      LDX #$0B     
+F815  2C 80 02  F1T17            BIT DRA
+F818  50 A0                      BVC F1T4
+F81A  10 F9                      BPL F1T17
+F81C  8D 03 04                   STA DATREG
+F81F  CA                         DEX 
+F820  D0 F3                      BNE F1T17
+F822  4C BD F7                   JMP F1T7
+
+#79 F825-F838 code_known a8fa5a8302e16997a40959566278c800
+F825  A9 01     F1T16            LDA #1       
+F827  A2 00                      LDX #0       ;SEKBUF?
+F829  2D 00 04  F1T18            AND FCNTRL
+F82C  F0 0B                      BEQ F1T19
+F82E  2C 80 02                   BIT DRA
+F831  10 F6                      BPL F1T18
+F833  8E 03 04                   STX DATREG
+F836  4C 29 F8                   JMP F1T18
+
+#80 F839-F84C code_known d833f927e793634066bab3b4e61ee586
+F839  AD 00 04  F1T19            LDA FCNTRL
+F83C  29 04                      AND #4       
+F83E  D0 0D                      BNE F1T8
+F840  A9 00                      LDA #0       ;SEKBUF?
+F842  85 91     F1T20            STA ERROR
+F844  AD 96 02                   LDA TIM64
+F847  AD 00 04                   LDA FCNTRL
+F84A  85 8F                      STA CSTAT
+F84C  60                         RTS 
+
+#81 F84D-F85B code_known 53a55f784beb7754bfa4f7eb90a78f54
+F84D  20 A0 F2  F1T8             JSR FORCE
+F850  C6 92                      DEC COUNT
+F852  30 08                      BMI F1T21
+F854  A9 01                      LDA #1       
+F856  8D 9F 02                   STA T1024I
+F859  4C 69 F7                   JMP F1T
+
+#82 F85C-F860 code_known 1eefa6656dfcb3ebf6534513e68193b4
+F85C  A9 80     F1T21            LDA #$80     ;RDRIVE?
+F85E  4C 42 F8                   JMP F1T20
+
+#83 F861-F866 code_known fd4b3cdd4f1b3f17dab280664017b026
+F861  20 67 F8  DFORM            JSR DDF
+F864  4C 0A F7                   JMP FORMVER
+
+#84 F867-F883 code_known 6c2ad6589c416c07b51a6ca91b0e5a51
+F867  20 22 FA  DDF              JSR BSEKT
+F86A  A9 00                      LDA #0       ;SEKBUF?
+F86C  85 01                      STA SEKBUF+1
+F86E  AD 80 02                   LDA DRA
+F871  29 DF                      AND #$DF     
+F873  8D 80 02                   STA DRA
+F876  2C 00 04  DDF1             BIT FCNTRL
+F879  30 04                      BMI DDF2
+F87B  70 02                      BVS DDF2
+F87D  10 05                      BPL DDF3
+F87F  A9 80     DDF2             LDA #$80     ;RDRIVE?
+F881  85 91                      STA ERROR
+F883  60                         RTS 
+
+#85 F884-F897 code_known 73463f6de8acdc53e600a5837db490a7
+F884  20 31 F2  DDF3             JSR SEEK
+F887  A9 02                      LDA #2       
+F889  85 92                      STA COUNT
+F88B  20 A3 F8                   JSR F1TD
+F88E  A2 D2                      LDX #$D2     
+F890  8E 9F 02                   STX T1024I
+F893  24 91                      BIT ERROR
+F895  10 01                      BPL DDF4
+F897  60                         RTS 
+
+#86 F898-F8A2 code_known 49e8b499f0b288bbbdd1999ccb89318e
+F898  E6 8D     DDF4             INC TRACK
+F89A  E6 89                      INC FTNR
+F89C  A9 28                      LDA #$28     
+F89E  C5 8D                      CMP TRACK
+F8A0  D0 D4                      BNE DDF1
+F8A2  60                         RTS 
+
+#87 F8A3-F926 code_known 29d0ac6348be8a0ec16c1425cdf2c8db
+F8A3  A0 00     F1TD             LDY #0       ;SEKBUF?
+F8A5  B9 07 FA                   LDA SKEWTB,Y
+F8A8  85 87                      STA FSNR
+F8AA  A2 4E                      LDX #$4E     
+F8AC  A9 F0                      LDA #$F0     
+F8AE  8D 00 04                   STA FCNTRL
+F8B1  2C 80 02  F1TD1            BIT DRA
+F8B4  10 FB                      BPL F1TD1
+F8B6  8E 03 04                   STX DATREG
+F8B9  8A                         TXA 
+F8BA  A2 D2                      LDX #$D2     
+F8BC  2C 80 02  F1TD2            BIT DRA
+F8BF  10 FB                      BPL F1TD2
+F8C1  8D 03 04                   STA DATREG
+F8C4  8E 9F 02                   STX T1024I
+F8C7  A2 90                      LDX #$90     
+F8C9  2C 80 02  F1TD3            BIT DRA
+F8CC  50 56                      BVC F1TD4
+F8CE  10 F9                      BPL F1TD3
+F8D0  8D 03 04                   STA DATREG
+F8D3  CA                         DEX 
+F8D4  D0 F3                      BNE F1TD3
+F8D6  2C 80 02  F1TD5            BIT DRA
+F8D9  50 49                      BVC F1TD4
+F8DB  10 F9                      BPL F1TD5
+F8DD  8D 03 04                   STA DATREG
+F8E0  CA                         DEX 
+F8E1  D0 F3                      BNE F1TD5
+F8E3  A9 00                      LDA #0       ;SEKBUF?
+F8E5  A2 0C                      LDX #$0C     
+F8E7  2C 80 02  F1TD6            BIT DRA
+F8EA  50 38                      BVC F1TD4
+F8EC  10 F9                      BPL F1TD6
+F8EE  8D 03 04                   STA DATREG
+F8F1  CA                         DEX 
+F8F2  D0 F3                      BNE F1TD6
+F8F4  A9 F6                      LDA #$F6     
+F8F6  A2 03                      LDX #3       
+F8F8  2C 80 02  F1TD7            BIT DRA
+F8FB  50 27                      BVC F1TD4
+F8FD  10 F9                      BPL F1TD7
+F8FF  8D 03 04                   STA DATREG
+F902  CA                         DEX 
+F903  D0 F3                      BNE F1TD7
+F905  A9 FC                      LDA #$FC     
+F907  2C 80 02  F1TD8            BIT DRA
+F90A  50 18                      BVC F1TD4
+F90C  10 F9                      BPL F1TD8
+F90E  8D 03 04                   STA DATREG
+F911  A9 4E                      LDA #$4E     
+F913  A2 32                      LDX #$32     
+F915  2C 80 02  F1TD9            BIT DRA
+F918  50 0A                      BVC F1TD4
+F91A  10 F9                      BPL F1TD9
+F91C  8D 03 04                   STA DATREG
+F91F  CA                         DEX 
+F920  D0 F3                      BNE F1TD9
+F922  F0 03                      BEQ F1TD10
+F924  4C F3 F9  F1TD4            JMP F1TD11
+
+#88 F927-F9CA code_known 86d388aad7e43695eb3a40b1f4bec836
+F927  A9 00     F1TD10           LDA #0       ;SEKBUF?
+F929  A2 0C                      LDX #$0C     
+F92B  2C 80 02  F1TD12           BIT DRA
+F92E  50 F4                      BVC F1TD4
+F930  10 F9                      BPL F1TD12
+F932  8D 03 04                   STA DATREG
+F935  CA                         DEX 
+F936  D0 F3                      BNE F1TD12
+F938  A9 F5                      LDA #$F5     
+F93A  A2 03                      LDX #3       
+F93C  2C 80 02  F1TD13           BIT DRA
+F93F  50 E3                      BVC F1TD4
+F941  10 F9                      BPL F1TD13
+F943  8D 03 04                   STA DATREG
+F946  CA                         DEX 
+F947  D0 F3                      BNE F1TD13
+F949  A2 05                      LDX #5       
+F94B  B5 85     F1TD14           LDA FDATA,X
+F94D  2C 80 02  F1TD15           BIT DRA
+F950  50 D2                      BVC F1TD4
+F952  10 F9                      BPL F1TD15
+F954  8D 03 04                   STA DATREG
+F957  CA                         DEX 
+F958  10 F1                      BPL F1TD14
+F95A  A9 4E                      LDA #$4E     
+F95C  A2 16                      LDX #$16     
+F95E  2C 80 02  F1TD16           BIT DRA
+F961  50 C1                      BVC F1TD4
+F963  10 F9                      BPL F1TD16
+F965  8D 03 04                   STA DATREG
+F968  CA                         DEX 
+F969  D0 F3                      BNE F1TD16
+F96B  A9 00                      LDA #0       ;SEKBUF?
+F96D  A2 0C                      LDX #$0C     
+F96F  2C 80 02  F1TD17           BIT DRA
+F972  50 B0                      BVC F1TD4
+F974  10 F9                      BPL F1TD17
+F976  8D 03 04                   STA DATREG
+F979  CA                         DEX 
+F97A  D0 F3                      BNE F1TD17
+F97C  A9 F5                      LDA #$F5     
+F97E  A2 03                      LDX #3       
+F980  2C 80 02  F1TD18           BIT DRA
+F983  50 9F                      BVC F1TD4
+F985  10 F9                      BPL F1TD18
+F987  8D 03 04                   STA DATREG
+F98A  CA                         DEX 
+F98B  D0 F3                      BNE F1TD18
+F98D  A2 83                      LDX #$83     
+F98F  B5 00     F1TD19           LDA SEKBUF,X
+F991  2C 80 02  F1TD20           BIT DRA
+F994  50 8E                      BVC F1TD4
+F996  10 F9                      BPL F1TD20
+F998  8D 03 04                   STA DATREG
+F99B  CA                         DEX 
+F99C  D0 F1                      BNE F1TD19
+F99E  C8                         INY 
+F99F  B9 07 FA                   LDA SKEWTB,Y
+F9A2  30 27                      BMI F1TD21
+F9A4  85 87                      STA FSNR
+F9A6  A9 00                      LDA #0       ;SEKBUF?
+F9A8  A2 11                      LDX #$11     
+F9AA  2C 80 02  F1TD22           BIT DRA
+F9AD  50 44                      BVC F1TD11
+F9AF  10 F9                      BPL F1TD22
+F9B1  8D 03 04                   STA DATREG
+F9B4  CA                         DEX 
+F9B5  D0 F3                      BNE F1TD22
+F9B7  A9 4E                      LDA #$4E     
+F9B9  A2 20                      LDX #$20     
+F9BB  2C 80 02  F1TD23           BIT DRA
+F9BE  50 33                      BVC F1TD11
+F9C0  10 F9                      BPL F1TD23
+F9C2  8D 03 04                   STA DATREG
+F9C5  CA                         DEX 
+F9C6  D0 F3                      BNE F1TD23
+F9C8  4C 27 F9                   JMP F1TD10
+
+#89 F9CB-F9DE code_known 76b6f7d08559b3e42d515b0381b38cba
+F9CB  A2 4E     F1TD21           LDX #$4E     
+F9CD  A9 01                      LDA #1       
+F9CF  2D 00 04  F1TD24           AND FCNTRL
+F9D2  F0 0B                      BEQ F1TD25
+F9D4  2C 80 02                   BIT DRA
+F9D7  10 F6                      BPL F1TD24
+F9D9  8E 03 04                   STX DATREG
+F9DC  4C CF F9                   JMP F1TD24
+
+#90 F9DF-F9F2 code_known d833f927e793634066bab3b4e61ee586
+F9DF  AD 00 04  F1TD25           LDA FCNTRL
+F9E2  29 04                      AND #4       
+F9E4  D0 0D                      BNE F1TD11
+F9E6  A9 00                      LDA #0       ;SEKBUF?
+F9E8  85 91     F1TD26           STA ERROR
+F9EA  AD 96 02                   LDA TIM64
+F9ED  AD 00 04                   LDA FCNTRL
+F9F0  85 8F                      STA CSTAT
+F9F2  60                         RTS 
+
+#91 F9F3-FA01 code_known 53a55f784beb7754bfa4f7eb90a78f54
+F9F3  20 A0 F2  F1TD11           JSR FORCE
+F9F6  C6 92                      DEC COUNT
+F9F8  30 08                      BMI F1TD27
+F9FA  A9 01                      LDA #1       
+F9FC  8D 9F 02                   STA T1024I
+F9FF  4C A3 F8                   JMP F1TD
+
+#92 FA02-FA06 code_known 1eefa6656dfcb3ebf6534513e68193b4
+FA02  A9 80     F1TD27           LDA #$80     ;RDRIVE?
+FA04  4C E8 F9                   JMP F1TD26
+
+#150 FA07-FA21 data_known 559a275d383ebb976b5c36961acb3b9d
+01 03 05 07 09 0B 0D 0F 11 13 15 17 19 02 04 06
+08 0A 0C 0E 10 12 14 16 18 1A FF
+
+#93 FA22-FA51 code_known c63d9e5b10663fdecd7727fda1d02533
+FA22  20 30 F1  BSEKT            JSR MOTON
+FA25  20 B9 F1                   JSR RESTORE
+FA28  A9 00                      LDA #0       ;SEKBUF?
+FA2A  85 8D                      STA TRACK
+FA2C  A2 00                      LDX #0       ;SEKBUF?
+FA2E  A9 FF                      LDA #$FF     
+FA30  95 03     BSEKT1           STA SEKBUF+3,X
+FA32  E8                         INX 
+FA33  10 FB                      BPL BSEKT1
+FA35  A9 FB                      LDA #$FB     
+FA37  85 83                      STA RSEKH
+FA39  A9 F7                      LDA #$F7     
+FA3B  85 02                      STA SEKBUF+2
+FA3D  85 85                      STA FDATA
+FA3F  A9 00                      LDA #0       ;SEKBUF?
+FA41  A2 04                      LDX #4       
+FA43  95 85     BSEKT2           STA FDATA,X
+FA45  CA                         DEX 
+FA46  D0 FB                      BNE BSEKT2
+FA48  A9 FE                      LDA #$FE     
+FA4A  85 8A                      STA FTNR+1
+FA4C  A9 02                      LDA #2       
+FA4E  8D 9F 02                   STA T1024I
+FA51  60                         RTS 
+
+#94 FA52-FAAA code_known 9be779fe748166c464a16d7ffcdee1b5
+FA52  A9 27     VERIF0           LDA #$27     
+FA54  85 8D                      STA TRACK
+FA56  AD 80 02                   LDA DRA
+FA59  29 20                      AND #$20     
+FA5B  0A                         ASL A
+FA5C  85 B1                      STA SBUF
+FA5E  A9 00     VERIF01          LDA #0       ;SEKBUF?
+FA60  85 B2                      STA SBUF+1
+FA62  85 91                      STA ERROR
+FA64  A9 02                      LDA #2       
+FA66  85 92                      STA COUNT
+FA68  20 31 F2                   JSR SEEK
+FA6B  A4 B2     VERIF02          LDY SBUF+1
+FA6D  24 B1                      BIT SBUF
+FA6F  50 0C                      BVC VERIF03
+FA71  C0 09                      CPY #9       
+FA73  D0 04                      BNE VERIF04
+FA75  A0 0D                      LDY #$0D     
+FA77  84 B2                      STY SBUF+1
+FA79  C0 16     VERIF04          CPY #$16     
+FA7B  F0 2E                      BEQ VERIF05
+FA7D  B9 07 FA  VERIF03          LDA SKEWTB,Y
+FA80  30 29                      BMI VERIF05
+FA82  85 8E                      STA SEKTOR
+FA84  8D 02 04                   STA SEKREG
+FA87  20 4B F5                   JSR RDSEKTOR
+FA8A  D0 04                      BNE VERIF06
+FA8C  E6 B2                      INC SBUF+1
+FA8E  10 DB                      BPL VERIF02
+FA90  C6 92     VERIF06          DEC COUNT
+FA92  F0 0D                      BEQ VERIF07
+FA94  20 4B F5                   JSR RDSEKTOR
+FA97  D0 F7                      BNE VERIF06
+FA99  A9 02                      LDA #2       
+FA9B  85 92                      STA COUNT
+FA9D  E6 B2                      INC SBUF+1
+FA9F  10 CA                      BPL VERIF02
+FAA1  A9 80     VERIF07          LDA #$80     ;RDRIVE?
+FAA3  85 91     VERIF08          STA ERROR
+FAA5  AD 00 04                   LDA FCNTRL
+FAA8  85 8F                      STA CSTAT
+FAAA  60                         RTS 
+
+#95 FAAB-FAC3 code_known d4c3c8a5bc56e927aaead49be55821df
+FAAB  C6 8D     VERIF05          DEC TRACK
+FAAD  10 AF                      BPL VERIF01
+FAAF  A9 00                      LDA #0       ;SEKBUF?
+FAB1  F0 F0                      BEQ VERIF08
+FAB3  20 19 F1  MOTONOF          JSR MOTOFF
+FAB6  A2 F0                      LDX #$F0     
+FAB8  20 9C F1                   JSR DELAY2
+FABB  A2 6E                      LDX #$6E     
+FABD  20 9C F1                   JSR DELAY2
+FAC0  20 80 F1                   JSR TMOTON
+FAC3  60                         RTS 
+
+#96 FAC4-FAEA code_known 4dac86b400ad7a7d8d16209d1808bc9f
+FAC4  20 80 F1  TEST             JSR TMOTON
+FAC7  A5 00                      LDA SEKBUF
+FAC9  C9 02                      CMP #2       
+FACB  D0 12                      BNE TEST1
+FACD  20 B9 F1                   JSR RESTORE
+FAD0  A9 00                      LDA #0       ;SEKBUF?
+FAD2  85 8D                      STA TRACK
+FAD4  A5 01                      LDA SEKBUF+1
+FAD6  85 8E                      STA SEKTOR
+FAD8  20 04 FE                   JSR TSTEPR
+FADB  B0 21                      BCS TEST2
+FADD  90 27                      BCC TESTE
+FADF  30 23     TEST1            BMI TEST3
+FAE1  C9 03                      CMP #3       
+FAE3  D0 06                      BNE TEST4
+FAE5  20 3D FC                   JSR TSTEP
+FAE8  4C 06 FB                   JMP TESTE
+
+#97 FAEB-FAF4 code_known dbb53f71de702d97f1e35fd1c7514a45
+FAEB  C9 04     TEST4            CMP #4       
+FAED  D0 06                      BNE TEST5
+FAEF  20 06 FB                   JSR TESTE
+FAF2  4C 0F FB                   JMP FPTEST
+
+#98 FAF5-FB0E code_known 324460ec81d7d8434919c304bc4db90c
+FAF5  C9 05     TEST5            CMP #5       
+FAF7  D0 05                      BNE TEST2
+FAF9  20 10 FC                   JSR TSEEK
+FAFC  90 08                      BCC TESTE
+FAFE  A5 91     TEST2            LDA ERROR
+FB00  09 80                      ORA #$80     ;RDRIVE?
+FB02  D0 06                      BNE TEST6
+FB04  85 94     TEST3            STA FLAG
+FB06  A5 91     TESTE            LDA ERROR
+FB08  29 7F                      AND #$7F     
+FB0A  85 91     TEST6            STA ERROR
+FB0C  4C 29 F5                   JMP QUITT
+
+#99 FB0F-FB91 code_known 351dd19a6fb2038f25cf1767bbdcdbce
+FB0F  A5 01     FPTEST           LDA SEKBUF+1
+FB11  85 9D                      STA HZ9D
+FB13  A5 02                      LDA SEKBUF+2
+FB15  85 9E                      STA HZ9E
+FB17  A2 09                      LDX #9       
+FB19  B5 03     FPTST1           LDA SEKBUF+3,X
+FB1B  95 A5                      STA BUFFER,X
+FB1D  CA                         DEX 
+FB1E  10 F9                      BPL FPTST1
+FB20  20 67 F8                   JSR DDF
+FB23  30 7B                      BMI TFAIL
+FB25  20 52 FA                   JSR VERIF0
+FB28  24 91                      BIT ERROR
+FB2A  30 74                      BMI TFAIL
+FB2C  20 45 FC                   JSR WS13AT
+FB2F  20 E7 FC  FPTST2           JSR M6DB6
+FB32  20 2F FE                   JSR TWR1
+FB35  20 B3 FA                   JSR MOTONOF
+FB38  20 23 FE                   JSR TVER1
+FB3B  20 B3 FA                   JSR MOTONOF
+FB3E  20 F2 FC                   JSR MDB66
+FB41  20 41 FE                   JSR TWR2
+FB44  20 B3 FA                   JSR MOTONOF
+FB47  20 11 FE                   JSR TVER2
+FB4A  20 B3 FA                   JSR MOTONOF
+FB4D  20 E7 FC                   JSR M6DB6
+FB50  20 E0 FB                   JSR WALTER1
+FB53  20 B3 FA                   JSR MOTONOF
+FB56  20 C8 FB                   JSR VALTER1
+FB59  20 B3 FA                   JSR MOTONOF
+FB5C  20 F2 FC                   JSR MDB66
+FB5F  20 F8 FB                   JSR WALTER2
+FB62  20 B3 FA                   JSR MOTONOF
+FB65  20 B0 FB                   JSR VALTER2
+FB68  20 B3 FA                   JSR MOTONOF
+FB6B  A9 00                      LDA #0       ;SEKBUF?
+FB6D  85 8D                      STA TRACK
+FB6F  20 31 F2                   JSR SEEK
+FB72  A9 01                      LDA #1       
+FB74  85 8E                      STA SEKTOR
+FB76  8D 02 04                   STA SEKREG
+FB79  20 92 FC                   JSR TREAD
+FB7C  E6 0A                      INC SEKBUF+10
+FB7E  D0 02                      BNE TST1
+FB80  E6 0B                      INC SEKBUF+11
+FB82  20 A7 FD  TST1             JSR WOSV
+FB85  C6 9D                      DEC HZ9D
+FB87  D0 A6                      BNE FPTST2
+FB89  A5 9E                      LDA HZ9E
+FB8B  F0 05                      BEQ TST2
+FB8D  C6 9E                      DEC HZ9E
+FB8F  4C 2F FB                   JMP FPTST2
+
+#100 FB92-FB9F code_known cd3e8dae993c722eeda1a9821b405ad9
+FB92  AD 00 04  TST2             LDA FCNTRL
+FB95  85 8F                      STA CSTAT
+FB97  A2 FF                      LDX #$FF     
+FB99  9A                         TXS 
+FB9A  20 B9 F1                   JSR RESTORE
+FB9D  4C D7 F0                   JMP DRDY
+
+#101 FBA0-FBAF code_known 9b6c428e549b8a6af13a27ad66c7a727
+FBA0  A9 08     TFAIL            LDA #8       
+FBA2  4D 80 02                   EOR DRA
+FBA5  8D 80 02                   STA DRA
+FBA8  A2 14                      LDX #$14     
+FBAA  20 9C F1                   JSR DELAY2
+FBAD  4C A0 FB                   JMP TFAIL
+
+#102 FBB0-FBC7 code_known cf8f83fd1de739633f86f6e9ed32d285
+FBB0  A9 27     VALTER2          LDA #$27     
+FBB2  85 B1                      STA SBUF
+FBB4  A9 00                      LDA #0       ;SEKBUF?
+FBB6  85 B2                      STA SBUF+1
+FBB8  A9 14                      LDA #$14     
+FBBA  85 B3                      STA SBUF+2
+FBBC  20 1F FC  VALT1            JSR SR2TRK
+FBBF  E6 B2                      INC SBUF+1
+FBC1  C6 B1                      DEC SBUF
+FBC3  C6 B3                      DEC SBUF+2
+FBC5  D0 F5                      BNE VALT1
+FBC7  60                         RTS 
+
+#103 FBC8-FBDF code_known 2c512e9f3a3482d44c83fbe73230a3f2
+FBC8  A9 00     VALTER1          LDA #0       ;SEKBUF?
+FBCA  85 B1                      STA SBUF
+FBCC  A9 27                      LDA #$27     
+FBCE  85 B2                      STA SBUF+1
+FBD0  A9 14                      LDA #$14     
+FBD2  85 B3                      STA SBUF+2
+FBD4  20 1F FC  VALT2            JSR SR2TRK
+FBD7  E6 B2                      INC SBUF+1
+FBD9  C6 B1                      DEC SBUF
+FBDB  C6 B3                      DEC SBUF+2
+FBDD  D0 F5                      BNE VALT2
+FBDF  60                         RTS 
+
+#104 FBE0-FBF7 code_known cf8f83fd1de739633f86f6e9ed32d285
+FBE0  A9 27     WALTER1          LDA #$27     
+FBE2  85 B1                      STA SBUF
+FBE4  A9 00                      LDA #0       ;SEKBUF?
+FBE6  85 B2                      STA SBUF+1
+FBE8  A9 14                      LDA #$14     
+FBEA  85 B3                      STA SBUF+2
+FBEC  20 2E FC  WALT1            JSR SW2TRK
+FBEF  E6 B2                      INC SBUF+1
+FBF1  C6 B1                      DEC SBUF
+FBF3  C6 B3                      DEC SBUF+2
+FBF5  D0 F5                      BNE WALT1
+FBF7  60                         RTS 
+
+#105 FBF8-FC0F code_known 2c512e9f3a3482d44c83fbe73230a3f2
+FBF8  A9 00     WALTER2          LDA #0       ;SEKBUF?
+FBFA  85 B1                      STA SBUF
+FBFC  A9 27                      LDA #$27     
+FBFE  85 B2                      STA SBUF+1
+FC00  A9 14                      LDA #$14     
+FC02  85 B3                      STA SBUF+2
+FC04  20 2E FC  WALT2            JSR SW2TRK
+FC07  E6 B2                      INC SBUF+1
+FC09  C6 B1                      DEC SBUF
+FC0B  C6 B3                      DEC SBUF+2
+FC0D  D0 F5                      BNE WALT2
+FC0F  60                         RTS 
+
+#106 FC10-FC1C code_known a523d15b241c46f0e7b791ccd6c4e179
+FC10  A5 01     TSEEK            LDA SEKBUF+1
+FC12  C9 28                      CMP #$28     
+FC14  10 07                      BPL TSEEK1
+FC16  85 8D                      STA TRACK
+FC18  20 31 F2                   JSR SEEK
+FC1B  18                         CLC 
+FC1C  60                         RTS 
+
+#107 FC1D-FC1E code_known b3f3828d3069d752a99e8648faa7019c
+FC1D  38        TSEEK1           SEC 
+FC1E  60                         RTS 
+
+#108 FC1F-FC2D code_known a7f589d181d0ef31a074460e600a65c3
+FC1F  A5 B1     SR2TRK           LDA SBUF
+FC21  85 8D                      STA TRACK
+FC23  20 4D FE                   JSR TRKVER
+FC26  A5 B2                      LDA SBUF+1
+FC28  85 8D                      STA TRACK
+FC2A  20 4D FE                   JSR TRKVER
+FC2D  60                         RTS 
+
+#109 FC2E-FC3C code_known a7f589d181d0ef31a074460e600a65c3
+FC2E  A5 B1     SW2TRK           LDA SBUF
+FC30  85 8D                      STA TRACK
+FC32  20 9A FE                   JSR TRKWRT
+FC35  A5 B2                      LDA SBUF+1
+FC37  85 8D                      STA TRACK
+FC39  20 9A FE                   JSR TRKWRT
+FC3C  60                         RTS 
+
+#110 FC3D-FC44 code_known 9260bb82fe1d420063611ae69471d666
+FC3D  A5 01     TSTEP            LDA SEKBUF+1
+FC3F  85 93                      STA DIR
+FC41  20 0A F2                   JSR STEP
+FC44  60                         RTS 
+
+#111 FC45-FC87 code_known 8129970c5da6ab36eb8665c708768981
+FC45  A9 00     WS13AT           LDA #0       ;SEKBUF?
+FC47  85 8D                      STA TRACK
+FC49  A9 00                      LDA #0       ;SEKBUF?
+FC4B  A8                         TAY 
+FC4C  20 FA FC                   JSR SEKPAT
+FC4F  A9 01     WS13AT1          LDA #1       
+FC51  85 8E                      STA SEKTOR
+FC53  20 A7 FD                   JSR WOSV
+FC56  30 72                      BMI TWERR
+FC58  A9 03                      LDA #3       
+FC5A  85 8E                      STA SEKTOR
+FC5C  20 A7 FD                   JSR WOSV
+FC5F  30 69                      BMI TWERR
+FC61  E6 8D                      INC TRACK
+FC63  A5 8D                      LDA TRACK
+FC65  C9 28                      CMP #$28     
+FC67  D0 E6                      BNE WS13AT1
+FC69  A9 00                      LDA #0       ;SEKBUF?
+FC6B  85 8D                      STA TRACK
+FC6D  A2 09                      LDX #9       
+FC6F  B5 A5     WS13AT2          LDA BUFFER,X
+FC71  95 00                      STA SEKBUF,X
+FC73  CA                         DEX 
+FC74  10 F9                      BPL WS13AT2
+FC76  A5 9D                      LDA HZ9D
+FC78  85 0C                      STA SEKBUF+12
+FC7A  A5 9E                      LDA HZ9E
+FC7C  85 0D                      STA SEKBUF+13
+FC7E  A9 01                      LDA #1       
+FC80  85 8E                      STA SEKTOR
+FC82  20 A7 FD                   JSR WOSV
+FC85  30 43                      BMI TWERR
+FC87  60                         RTS 
+
+#112 FC88-FC8E code_known 8310fa0f10a32f361d91b910ad28b2b2
+FC88  A5 9C     MWAHL            LDA MUSTERNR
+FC8A  D0 03                      BNE MWAHL1
+FC8C  4C E7 FC                   JMP M6DB6
+
+#113 FC8F-FC91 code_known 4ea7f30e8c5a35775963e0d2b990d4a2
+FC8F  4C F2 FC  MWAHL1           JMP MDB66
+
+#114 FC92-FC9D code_known 99c326830130dd1485bf56ef3838bdae
+FC92  AD 02 04  TREAD            LDA SEKREG
+FC95  C9 10                      CMP #$10     
+FC97  10 05                      BPL TREAD1
+FC99  A0 01                      LDY #1       
+FC9B  4C A3 FC                   JMP TREAD2
+
+#115 FC9E-FCC9 code_known 15b5011d4be43f04477b1dc060cc0766
+FC9E  38        TREAD1           SEC 
+FC9F  E9 10                      SBC #$10     
+FCA1  A0 03                      LDY #3       
+FCA3  8C 02 04  TREAD2           STY SEKREG
+FCA6  84 8E                      STY SEKTOR
+FCA8  0A                         ASL A
+FCA9  0A                         ASL A
+FCAA  0A                         ASL A
+FCAB  69 00                      ADC #0       ;SEKBUF?
+FCAD  85 98                      STA KOMND
+FCAF  A9 00                      LDA #0       ;SEKBUF?
+FCB1  85 99                      STA JUMPL
+FCB3  A9 02                      LDA #2       
+FCB5  85 92                      STA COUNT
+FCB7  20 4B F5  TREAD3           JSR RDSEKTOR
+FCBA  F0 2A                      BEQ TREAD5
+FCBC  C6 92                      DEC COUNT
+FCBE  F0 0A                      BEQ TWERR
+FCC0  AD 00 04                   LDA FCNTRL
+FCC3  29 0C                      AND #$0C     
+FCC5  F0 06                      BEQ TREAD4
+FCC7  4C B7 FC                   JMP TREAD3
+
+#116 FCCA-FCCC code_known 4ea7f30e8c5a35775963e0d2b990d4a2
+FCCA  4C 92 FB  TWERR            JMP TST2
+
+#117 FCCD-FCE6 code_known ec952987e4779b6999ded04233c9f799
+FCCD  A5 8F     TREAD4           LDA CSTAT
+FCCF  29 10                      AND #$10     
+FCD1  F0 E4                      BEQ TREAD3
+FCD3  20 B9 F1                   JSR RESTORE
+FCD6  20 31 F2                   JSR SEEK
+FCD9  20 4B F5                   JSR RDSEKTOR
+FCDC  D0 EC                      BNE TWERR
+FCDE  A9 40                      LDA #$40     
+FCE0  85 96                      STA SEEKERR
+FCE2  A9 FF                      LDA #$FF     
+FCE4  85 A1                      STA FMERK+1
+FCE6  60        TREAD5           RTS 
+
+#118 FCE7-FCF1 code_known 7aa8c9ec823d93c3d2f43678492b712b
+FCE7  A9 00     M6DB6            LDA #0       ;SEKBUF?
+FCE9  85 9C                      STA MUSTERNR
+FCEB  A9 6D                      LDA #$6D     
+FCED  A0 B6                      LDY #$B6     
+FCEF  4C FA FC                   JMP SEKPAT
+
+#119 FCF2-FD04 code_known 5cb5104a47675b1c5f533ab97024b640
+FCF2  A9 FF     MDB66            LDA #$FF     
+FCF4  85 9C                      STA MUSTERNR
+FCF6  A9 DB                      LDA #$DB     
+FCF8  A0 66                      LDY #$66     
+FCFA  A2 00     SEKPAT           LDX #0       ;SEKBUF?
+FCFC  95 00     SEKPA1           STA SEKBUF,X
+FCFE  E8                         INX 
+FCFF  94 00                      STY SEKBUF,X
+FD01  E8                         INX 
+FD02  10 F8                      BPL SEKPA1
+FD04  60                         RTS 
+
+#120 FD05-FD22 code_known de333631d309524dc36a756c8bee5672
+FD05  AD 00 04  FAUSW            LDA FCNTRL
+FD08  85 8F                      STA CSTAT
+FD0A  84 9A                      STY JUMPH
+FD0C  A5 8F                      LDA CSTAT
+FD0E  29 10                      AND #$10     
+FD10  F0 23                      BEQ FAUSW1
+FD12  A5 A0                      LDA FMERK
+FD14  F0 0D                      BEQ FAUSW2
+FD16  A5 A2                      LDA FMERK+2
+FD18  F0 04                      BEQ FAUSW3
+FD1A  A9 80                      LDA #$80     ;RDRIVE?
+FD1C  D0 02                      BNE FAUSW4
+FD1E  A9 04     FAUSW3           LDA #4       
+FD20  4C 53 FD  FAUSW4           JMP FAUSW5
+
+#121 FD23-FD34 code_known b91eeae3fbe09f57d1941598b25fe27a
+FD23  A9 FF     FAUSW2           LDA #$FF     
+FD25  85 A0                      STA FMERK
+FD27  85 A1                      STA FMERK+1
+FD29  A5 A2                      LDA FMERK+2
+FD2B  D0 05                      BNE FAUSW6
+FD2D  20 FB F5                   JSR WRSEKTOR
+FD30  D0 EC                      BNE FAUSW3
+FD32  4C A1 FD  FAUSW6           JMP FAUSW7
+
+#122 FD35-FD98 code_known 9026036c4b06327bf5a1c1987930e32f
+FD35  A5 8F     FAUSW1           LDA CSTAT
+FD37  29 08                      AND #8       
+FD39  F0 04                      BEQ FAUSW8
+FD3B  A9 02                      LDA #2       
+FD3D  D0 14                      BNE FAUSW5
+FD3F  A5 8F     FAUSW8           LDA CSTAT
+FD41  29 04                      AND #4       
+FD43  F0 04                      BEQ FAUSW9
+FD45  A9 08                      LDA #8       
+FD47  D0 0A                      BNE FAUSW5
+FD49  A5 97     FAUSW9           LDA TRKERR
+FD4B  F0 04                      BEQ FAUSW10
+FD4D  A9 10                      LDA #$10     
+FD4F  D0 02                      BNE FAUSW5
+FD51  A9 01     FAUSW10          LDA #1       
+FD53  A0 00     FAUSW5           LDY #0       ;SEKBUF?
+FD55  84 A1                      STY FMERK+1
+FD57  85 96                      STA SEEKERR
+FD59  20 92 FC                   JSR TREAD
+FD5C  A5 96                      LDA SEEKERR
+FD5E  A0 00                      LDY #0       ;SEKBUF?
+FD60  11 98                      ORA (KOMND),Y
+FD62  91 98                      STA (KOMND),Y
+FD64  A5 96                      LDA SEEKERR
+FD66  C9 08                      CMP #8       
+FD68  F0 2F                      BEQ FAUSW11
+FD6A  A0 07                      LDY #7       
+FD6C  C9 10                      CMP #$10     
+FD6E  F0 15                      BEQ FAUSW12
+FD70  88                         DEY 
+FD71  C9 80                      CMP #$80     ;RDRIVE?
+FD73  F0 1A                      BEQ FAUSW13
+FD75  88                         DEY 
+FD76  C9 40                      CMP #$40     
+FD78  F0 15                      BEQ FAUSW13
+FD7A  88                         DEY 
+FD7B  C9 04                      CMP #4       
+FD7D  F0 10                      BEQ FAUSW13
+FD7F  88                         DEY 
+FD80  C9 02                      CMP #2       
+FD82  F0 0B                      BEQ FAUSW13
+FD84  88                         DEY 
+FD85  84 A4     FAUSW12          STY HZA4
+FD87  A0 01                      LDY #1       
+FD89  A5 A3                      LDA ERRADR
+FD8B  91 98                      STA (KOMND),Y
+FD8D  A4 A4                      LDY HZA4
+FD8F  B1 98     FAUSW13          LDA (KOMND),Y
+FD91  18                         CLC 
+FD92  69 01                      ADC #1       
+FD94  91 98                      STA (KOMND),Y
+FD96  10 01                      BPL FAUSW11
+FD98  00                         BRK 
+
+#123 FD99-FDA0 code_known 35ae78fa1688c9ed139f3c338ee6465a
+FD99  20 A7 FD  FAUSW11          JSR WOSV
+FD9C  10 03                      BPL FAUSW7
+FD9E  4C 92 FB                   JMP TST2
+
+#124 FDA1-FDA6 code_known 6bf99347645ec4b5cc580883e02e415e
+FDA1  20 88 FC  FAUSW7           JSR MWAHL
+FDA4  A4 9A                      LDY JUMPH
+FDA6  60                         RTS 
+
+#125 FDA7-FDC3 code_known ce27f2f5199736573fb25f77b16e6411
+FDA7  A9 80     WOSV             LDA #$80     ;RDRIVE?
+FDA9  85 91                      STA ERROR
+FDAB  A9 02                      LDA #2       
+FDAD  85 92                      STA COUNT
+FDAF  20 DB F5                   JSR WRITE2
+FDB2  24 91                      BIT ERROR
+FDB4  30 0D                      BMI WOSV1
+FDB6  A9 80                      LDA #$80     ;RDRIVE?
+FDB8  85 91                      STA ERROR
+FDBA  A9 02                      LDA #2       
+FDBC  85 92                      STA COUNT
+FDBE  20 56 F6                   JSR VERIFY
+FDC1  24 91                      BIT ERROR
+FDC3  60        WOSV1            RTS 
+
+#126 FDC4-FE01 code_known 91dbf035118d66c0e6ed8e271b46a5ac
+FDC4  20 77 FF  TSTPRT           JSR WSONE
+FDC7  B0 37                      BCS TSTPRT1
+FDC9  E6 8D                      INC TRACK
+FDCB  20 31 F2                   JSR SEEK
+FDCE  A9 C0                      LDA #$C0     
+FDD0  8D 00 04                   STA FCNTRL
+FDD3  A9 D2                      LDA #$D2     
+FDD5  20 C4 F5                   JSR TIMEOUT
+FDD8  A2 7A                      LDX #$7A     ;ATRACK?
+FDDA  2C 80 02  TSTPRT2          BIT DRA
+FDDD  50 21                      BVC TSTPRT1
+FDDF  10 F9                      BPL TSTPRT2
+FDE1  AD 03 04                   LDA DATREG
+FDE4  95 00                      STA SEKBUF,X
+FDE6  E8                         INX 
+FDE7  10 F1                      BPL TSTPRT2
+FDE9  AD 96 02                   LDA TIM64
+FDEC  A9 01                      LDA #1       
+FDEE  2C 00 04  TSTPRT3          BIT FCNTRL
+FDF1  D0 FB                      BNE TSTPRT3
+FDF3  AD 00 04                   LDA FCNTRL
+FDF6  D0 08                      BNE TSTPRT1
+FDF8  A5 7C                      LDA ASEK
+FDFA  C5 8E                      CMP SEKTOR
+FDFC  F0 04                      BEQ TSTPRT4
+FDFE  30 02                      BMI TSTPRT4
+FE00  38        TSTPRT1          SEC 
+FE01  60                         RTS 
+
+#127 FE02-FE03 code_known 7369994ec549faca27f485717f3eb1f5
+FE02  18        TSTPRT4          CLC 
+FE03  60                         RTS 
+
+#128 FE04-FE10 code_known 051fd82c7d23abd0f5aacdd4eae522de
+FE04  20 C4 FD  TSTEPR           JSR TSTPRT
+FE07  B0 07                      BCS TSTEPR1
+FE09  A5 8D                      LDA TRACK
+FE0B  C9 27                      CMP #$27     
+FE0D  D0 F5                      BNE TSTEPR
+FE0F  18                         CLC 
+FE10  60        TSTEPR1          RTS 
+
+#129 FE11-FE22 code_known bf9f4c027dac2d48f53be371c7330f3e
+FE11  A9 00     TVER2            LDA #0       ;SEKBUF?
+FE13  85 8D                      STA TRACK
+FE15  A9 28                      LDA #$28     
+FE17  85 B3                      STA SBUF+2
+FE19  20 4D FE  TVER21           JSR TRKVER
+FE1C  E6 8D                      INC TRACK
+FE1E  C6 B3                      DEC SBUF+2
+FE20  D0 F7                      BNE TVER21
+FE22  60                         RTS 
+
+#130 FE23-FE2E code_known 4679872fa4ace81eda7026b2f95e1705
+FE23  A9 27     TVER1            LDA #$27     
+FE25  85 8D                      STA TRACK
+FE27  20 4D FE  TVER11           JSR TRKVER
+FE2A  C6 8D                      DEC TRACK
+FE2C  10 F9                      BPL TVER11
+FE2E  60                         RTS 
+
+#131 FE2F-FE40 code_known bf9f4c027dac2d48f53be371c7330f3e
+FE2F  A9 00     TWR1             LDA #0       ;SEKBUF?
+FE31  85 8D                      STA TRACK
+FE33  A9 28                      LDA #$28     
+FE35  85 B3                      STA SBUF+2
+FE37  20 9A FE  TWR11            JSR TRKWRT
+FE3A  E6 8D                      INC TRACK
+FE3C  C6 B3                      DEC SBUF+2
+FE3E  D0 F7                      BNE TWR11
+FE40  60                         RTS 
+
+#132 FE41-FE4C code_known 4679872fa4ace81eda7026b2f95e1705
+FE41  A9 27     TWR2             LDA #$27     
+FE43  85 8D                      STA TRACK
+FE45  20 9A FE  TWR21            JSR TRKWRT
+FE48  C6 8D                      DEC TRACK
+FE4A  10 F9                      BPL TWR21
+FE4C  60                         RTS 
+
+#133 FE4D-FE89 code_known 749efbe326eb70e4b240bd44c2dbcb26
+FE4D  20 31 F2  TRKVER           JSR SEEK
+FE50  A9 00                      LDA #0       ;SEKBUF?
+FE52  85 A2                      STA FMERK+2
+FE54  A0 02                      LDY #2       
+FE56  A9 00     TRKVER1          LDA #0       ;SEKBUF?
+FE58  85 A0                      STA FMERK
+FE5A  B9 07 FA  TRKVER2          LDA SKEWTB,Y
+FE5D  30 3A                      BMI TRKVER3
+FE5F  C8                         INY 
+FE60  8D 02 04                   STA SEKREG
+FE63  20 69 F6                   JSR VERSEK
+FE66  F0 EE                      BEQ TRKVER1
+FE68  AD 00 04                   LDA FCNTRL
+FE6B  29 1C                      AND #$1C     
+FE6D  D0 1F                      BNE TRKVER4
+FE6F  A9 06                      LDA #6       
+FE71  85 92                      STA COUNT
+FE73  C6 92     TRKVER5          DEC COUNT
+FE75  F0 13                      BEQ TRKVER6
+FE77  20 69 F6                   JSR VERSEK
+FE7A  F0 F7                      BEQ TRKVER5
+FE7C  AD 00 04                   LDA FCNTRL
+FE7F  29 1C                      AND #$1C     
+FE81  D0 F0                      BNE TRKVER5
+FE83  A9 FF                      LDA #$FF     
+FE85  85 97                      STA TRKERR
+FE87  4C 8E FE                   JMP TRKVER4
+
+#134 FE8A-FE98 code_known 32f0235d96bf6d36e5c0f37bafb6fcfb
+FE8A  A9 00     TRKVER6          LDA #0       ;SEKBUF?
+FE8C  85 97                      STA TRKERR
+FE8E  20 05 FD  TRKVER4          JSR FAUSW
+FE91  A5 A1                      LDA FMERK+1
+FE93  F0 C1                      BEQ TRKVER1
+FE95  88                         DEY 
+FE96  4C 5A FE                   JMP TRKVER2
+
+#135 FE99-FE99 code_known 833344d5e1432da82ef02e1301477ce8
+FE99  60        TRKVER3          RTS 
+
+#136 FE9A-FEBF code_known ac042bcd5e2519ba147da91c962afa4f
+FE9A  20 31 F2  TRKWRT           JSR SEEK
+FE9D  A9 FF                      LDA #$FF     
+FE9F  85 A2                      STA FMERK+2
+FEA1  A0 02                      LDY #2       
+FEA3  A9 00     TRKWRT1          LDA #0       ;SEKBUF?
+FEA5  85 A0                      STA FMERK
+FEA7  B9 07 FA  TRKWRT2          LDA SKEWTB,Y
+FEAA  30 A1                      BMI TRKVER
+FEAC  C8                         INY 
+FEAD  8D 02 04                   STA SEKREG
+FEB0  20 FB F5                   JSR WRSEKTOR
+FEB3  F0 EE                      BEQ TRKWRT1
+FEB5  20 05 FD                   JSR FAUSW
+FEB8  A5 A1                      LDA FMERK+1
+FEBA  F0 E7                      BEQ TRKWRT1
+FEBC  88                         DEY 
+FEBD  4C A7 FE                   JMP TRKWRT2
+
+#137 FEC0-FEE2 code_known 924d7e493fb0f1f2577dbb0543e7367f
+FEC0  20 80 F1  TTRK201          JSR TMOTON
+FEC3  A9 00                      LDA #0       ;SEKBUF?
+FEC5  85 00                      STA SEKBUF
+FEC7  85 01                      STA SEKBUF+1
+FEC9  AD F9 FF                   LDA TSTRNG
+FECC  85 7D                      STA ALEN
+FECE  AD FA FF                   LDA TSTRNG+1
+FED1  85 7E                      STA ACRC1
+FED3  AD FB FF                   LDA TSTRNG+2
+FED6  85 7F                      STA ACRC2
+FED8  A5 94                      LDA FLAG
+FEDA  F0 20                      BEQ TTRK2011
+FEDC  C9 01                      CMP #1       
+FEDE  D0 03                      BNE TTRK2012
+FEE0  4C 09 FF                   JMP MOTHL
+
+#138 FEE3-FEFB code_known 96d36610a38236ad56072ad1cb25df42
+FEE3  A5 91     TTRK2012         LDA ERROR
+FEE5  09 80                      ORA #$80     ;RDRIVE?
+FEE7  85 91                      STA ERROR
+FEE9  D0 06                      BNE TTRK2013
+FEEB  A5 91     TTRK2014         LDA ERROR
+FEED  29 7F                      AND #$7F     
+FEEF  85 91                      STA ERROR
+FEF1  A9 D0     TTRK2013         LDA #$D0     
+FEF3  8D 00 04                   STA FCNTRL
+FEF6  20 29 F5                   JSR QUITT
+FEF9  4C 1B F4                   JMP SNDSEK
+
+#139 FEFC-FF08 code_known 66eaa874a399f6e6796760d092e7397e
+FEFC  20 77 FF  TTRK2011         JSR WSONE
+FEFF  B0 E2                      BCS TTRK2012
+FF01  20 A0 FF                   JSR SPEED
+FF04  B0 DD                      BCS TTRK2012
+FF06  4C EB FE                   JMP TTRK2014
+
+#140 FF09-FF43 code_known 718258e5569c0b1f8532fb519c8f7acf
+FF09  A9 14     MOTHL            LDA #$14     
+FF0B  85 8D                      STA TRACK
+FF0D  20 31 F2                   JSR SEEK
+FF10  20 19 F1                   JSR MOTOFF
+FF13  A2 32                      LDX #$32     
+FF15  20 9C F1                   JSR DELAY2
+FF18  AD 80 02                   LDA DRA
+FF1B  29 7F                      AND #$7F     
+FF1D  8D 80 02                   STA DRA
+FF20  A9 C0                      LDA #$C0     
+FF22  8D 00 04                   STA FCNTRL
+FF25  A2 7A                      LDX #$7A     ;ATRACK?
+FF27  A9 01     MOTHL1           LDA #1       
+FF29  8D 97 02                   STA TIM1024
+FF2C  2C 80 02  MOTHL2           BIT DRA
+FF2F  30 18                      BMI MOTHL3
+FF31  2C 9F 02                   BIT T1024I
+FF34  10 F6                      BPL MOTHL2
+FF36  E6 00                      INC SEKBUF
+FF38  D0 ED                      BNE MOTHL1
+FF3A  E6 01                      INC SEKBUF+1
+FF3C  D0 E9                      BNE MOTHL1
+FF3E  AD 96 02                   LDA TIM64
+FF41  4C E3 FE                   JMP TTRK2012
+
+#141 FF44-FF76 code_known 5eaeb97fab836ed589d6f713c6c91815
+FF44  2C 80 02  MOTHL4           BIT DRA
+FF47  10 FB                      BPL MOTHL4
+FF49  AD 03 04  MOTHL3           LDA DATREG
+FF4C  95 00                      STA SEKBUF,X
+FF4E  E8                         INX 
+FF4F  10 F3                      BPL MOTHL4
+FF51  A9 01                      LDA #1       
+FF53  2C 00 04  MOTHL5           BIT FCNTRL
+FF56  D0 FB                      BNE MOTHL5
+FF58  A5 7A                      LDA ATRACK
+FF5A  C9 14                      CMP #$14     
+FF5C  F0 09                      BEQ MOTHL6
+FF5E  A9 C0     MOTHL7           LDA #$C0     
+FF60  8D 00 04                   STA FCNTRL
+FF63  A2 7A                      LDX #$7A     ;ATRACK?
+FF65  D0 C5                      BNE MOTHL2
+FF67  AD 00 04  MOTHL6           LDA FCNTRL
+FF6A  D0 F2                      BNE MOTHL7
+FF6C  2C 9F 02  MOTTHL8          BIT T1024I
+FF6F  10 FB                      BPL MOTTHL8
+FF71  AD 96 02                   LDA TIM64
+FF74  4C EB FE                   JMP TTRK2014
+
+#142 FF77-FF9D code_known b8948ed9d7c57f489818cf8a480033fc
+FF77  A9 01     WSONE            LDA #1       
+FF79  8D 02 04                   STA SEKREG
+FF7C  AD 03 04                   LDA DATREG
+FF7F  A9 82                      LDA #$82     
+FF81  8D 00 04                   STA FCNTRL
+FF84  A9 E6                      LDA #$E6     
+FF86  20 C4 F5                   JSR TIMEOUT
+FF89  2C 80 02  SWONE1           BIT DRA
+FF8C  50 10                      BVC WSONE2
+FF8E  10 F9                      BPL SWONE1
+FF90  AD 96 02                   LDA TIM64
+FF93  AD 03 04                   LDA DATREG
+FF96  20 A0 F2                   JSR FORCE
+FF99  AD 03 04                   LDA DATREG
+FF9C  18                         CLC 
+FF9D  60                         RTS 
+
+#143 FF9E-FF9F code_known b3f3828d3069d752a99e8648faa7019c
+FF9E  38        WSONE2           SEC 
+FF9F  60                         RTS 
+
+#144 FFA0-FFC6 code_known a80b752875e954c43b29fba7862bd826
+FFA0  A9 01     SPEED            LDA #1       
+FFA2  8D 02 04                   STA SEKREG
+FFA5  A9 82                      LDA #$82     
+FFA7  8D 00 04                   STA FCNTRL
+FFAA  A0 01                      LDY #1       
+FFAC  20 B0 F1                   JSR DELAY3
+FFAF  2C 80 02  SPEED1           BIT DRA
+FFB2  30 13                      BMI SPEED2
+FFB4  A0 0D                      LDY #$0D     
+FFB6  20 B0 F1                   JSR DELAY3
+FFB9  EA                         NOP 
+FFBA  EA                         NOP 
+FFBB  EA                         NOP 
+FFBC  EA                         NOP 
+FFBD  E6 00                      INC SEKBUF
+FFBF  D0 EE                      BNE SPEED1
+FFC1  E6 01                      INC SEKBUF+1
+FFC3  D0 EA                      BNE SPEED1
+FFC5  38                         SEC 
+FFC6  60                         RTS 
+
+#145 FFC7-FFC8 code_known 7369994ec549faca27f485717f3eb1f5
+FFC7  18        SPEED2           CLC 
+FFC8  60                         RTS 
+
+#146 FFC9-FFD6 code_known 075860b5dc1b12323b6fadfcc175144c
+FFC9  20 A0 F2  BREAK            JSR FORCE
+FFCC  A9 3C                      LDA #$3C     
+FFCE  0D 82 02                   ORA DRB
+FFD1  8D 82 02                   STA DRB
+FFD4  4C A0 FB                   JMP TFAIL
+
+#151 FFD7-FFDF code_dark 6c5b9964b726a28029c5939ba0752f67
+FFD7  AA                         TAX 
+FFD8  AA                         TAX 
+FFD9  AA                         TAX 
+FFDA  AA                         TAX 
+FFDB  AA                         TAX 
+FFDC  AA                         TAX 
+FFDD  AA                         TAX 
+FFDE  AA                         TAX 
+FFDF  AA                         TAX 
+
+#148 FFE0-FFEF data_known 1adb3bb7f6dc108a2aa4578187058f90
+BA CB 44 BE 07 61 C4 C0 F4 F5 F6 F6 F7 F8 FA FE
+
+#152 FFF0-FFF9 data_inferred 02db9dfbab0d49c03b838b74aa0cc9c1
+AA AA AA AA AA AA AA AA AA 4B
+
+#147 FFFA-FFFF data_known 1beed77361cd09a0cc066c2bbc77dd88
+04 1A 13 F0 C9 FF

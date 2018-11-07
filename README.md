@@ -78,6 +78,9 @@ Currently, to use it you will need:
 - A 64-bit Linux distro. It has not yet been ported to Windows, Mac or anything else.
 - The ability to edit files on Linux if you want to add or modify architecture overlay files.
 
+You can get started right away by
+[downloading just the pre-built executable](https://github.com/dhinson919/hac65/raw/master/build/amd64/release/hac65).
+
 To build it you will need:
 - A recent 64-bit Linux distro. It was developed and tested on Ubuntu 18.04.1 LTS "bionic".
 - git (or compatible), cmake and g++ 7.1 (minimum).
